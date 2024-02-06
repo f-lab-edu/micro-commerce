@@ -45,9 +45,10 @@
 
 # 🖥 프로젝트 기술 스택
 
-- Java
-- SpringBoot
-- Spring Cloud Gateway
+- Java17
+- SpringBoot 3.2.2
+- Spring Cloud Gateway 4.1.0
+- Spring Cloud Eureka 4.1.0
 - Kafka
 - Redis
 - MySQL
@@ -88,17 +89,17 @@
 
 # 📄 ERD
 ### 회원 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/683434c5-faa2-4b74-ac29-a3c145086f7f)
+<img width="684" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/4e098e20-f7be-4ce9-993e-629149cbf4b0">
 
 <br>
 
 ### 상품 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/f456eb1d-aa5b-4ce1-ba06-43d19f417984)
+<img width="727" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/6a1aedd3-1e35-4fb6-9557-19016f69acef">
 
 <br>
 
 ### 주문 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/3212a2a9-0c95-4305-9bd5-014c430d59b2)
+<img width="780" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/29a21642-202c-41b4-aa0f-0da0d206019b">
 
 <br>
 
@@ -113,7 +114,7 @@
 <br>
 
 ### 문의 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/fd5ed6fb-3ab7-4457-aa0d-a7b9cf6285eb)
+<img width="819" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/d266ebcb-86fb-4648-9838-d8ca7f9cee99">
 
 <br>
 
