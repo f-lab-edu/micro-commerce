@@ -3,8 +3,6 @@
 <br/><br/>
 
 # 🗂️ 목차
-- [micro-commerce](#micro-commerce)
-- [🗂️ 목차](#️-목차)
 - [📜 프로젝트 개요](#-프로젝트-개요)
 - [📑 시스템 구성도](#-시스템-구성도)
 - [🖥 프로젝트 기술 스택](#-프로젝트-기술-스택)
@@ -18,10 +16,6 @@
     - [회원 서비스](#회원-서비스)
     - [상품 서비스](#상품-서비스)
     - [주문 서비스](#주문-서비스)
-    - [판매자서비스](#판매자서비스)
-    - [관리자 서비스](#관리자-서비스)
-    - [문의 서비스](#문의-서비스)
-    - [배송 서비스](#배송-서비스)
 - [🌲 Git Branch Strategy](#-git-branch-strategy)
 
 <br/><br/>
@@ -89,37 +83,17 @@
 
 # 📄 ERD
 ### 회원 서비스
-<img width="684" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/4e098e20-f7be-4ce9-993e-629149cbf4b0">
+![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/e9974472-be1d-4b2a-8b0a-eac91526902e)
 
 <br>
 
 ### 상품 서비스
-<img width="727" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/6a1aedd3-1e35-4fb6-9557-19016f69acef">
+![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/061d7994-ea68-4e4d-87a0-435b01779560)
 
 <br>
 
 ### 주문 서비스
-<img width="780" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/29a21642-202c-41b4-aa0f-0da0d206019b">
-
-<br>
-
-### 판매자서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/0e92547f-7060-4422-ba36-9fc78c3ab09c)
-
-<br>
-
-### 관리자 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/f84cb445-6999-4e56-bf02-f132cddf94c5)
-
-<br>
-
-### 문의 서비스
-<img width="819" alt="image" src="https://github.com/f-lab-edu/micro-commerce/assets/66265199/d266ebcb-86fb-4648-9838-d8ca7f9cee99">
-
-<br>
-
-### 배송 서비스
-![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/e27f5dbc-11bd-49a6-85d0-8aef9600f0cf)
+![image](https://github.com/f-lab-edu/micro-commerce/assets/66265199/ddd17e90-48f5-45c0-9b3a-a3f8be24e5f1)
 
 <br/><br/>
 

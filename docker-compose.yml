@@ -1,0 +1,81 @@
+version: '1'
+
+services:
+  service-discovery:
+    container_name: service-discovery
+    build:
+      context: ./service-discovery
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      - micro-commerce-network
+
+  config-server:
+    container_name: config-server
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+          condition: service_started
+
+  user:
+    container_name: micro-commerce-user
+    build:
+      context: ./micro-commerce-user
+      dockerfile: Dockerfile
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+      api-gateway:
+        condition: service_started
+
+  product:
+    container_name: micro-commerce-product
+    build:
+      context: ./micro-commerce-product
+      dockerfile: Dockerfile
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+      api-gateway:
+        condition: service_started
+
+  order:
+    container_name: micro-commerce-order
+    build:
+      context: ./micro-commerce-order
+      dockerfile: Dockerfile
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+      api-gateway:
+        condition: service_started
+
+networks:
+  micro-commerce-network:
+    driver: bridge

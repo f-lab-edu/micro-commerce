@@ -1,0 +1,28 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: micro-commerce-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:uc0/micro-commerce-config-server.git
+          default-label: main
+          ignore-local-ssh-settings: true
+          strict-host-key-checking: false
+          private-key: |
+            -----BEGIN EC PRIVATE KEY-----
+            MHcCAQEEIAnWKBqk0gzm1q2p868maOZvS/06czcfM95PiR7GaoJdoAoGCCqGSM49
+            AwEHoUQDQgAElhgtsPU0LzKesnKLAysg2miQx3SR9Ux4G4v0Jw9lGy2bPGpCuTc+
+            EFb4ict+0uUIuKDTyjc1yN/gHCFsK+e78Q==
+            -----END EC PRIVATE KEY-----
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://service-discovery:8761/eureka/
+
