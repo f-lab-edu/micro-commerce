@@ -31,18 +31,17 @@
 <br/><br/>
 
 # 📑 시스템 구성도
-
-![system architecture](https://github.com/f-lab-edu/micro-commerce/assets/66265199/8c1c1f42-f373-4d2e-bec0-8941af8b5888)
+![system architecture](https://github.com/f-lab-edu/micro-commerce/assets/66265199/d668920c-7827-4b26-86e9-64c71720df5d)
 
 <br/><br/>
 
 
 # 🖥 프로젝트 기술 스택
-
 - Java17
 - SpringBoot 3.2.2
 - Spring Cloud Gateway 4.1.0
 - Spring Cloud Eureka 4.1.0
+- Spring Cloud Config 4.1.0
 - Kafka
 - Redis
 - MySQL
@@ -98,4 +97,4 @@
 <br/><br/>
 
 # 🌲 Git Branch Strategy
-![](https://github.com/f-lab-edu/show-your-worth/assets/11500877/68605232-e78f-4ff3-88cb-9cbbba9943c0)
+![image](https://github.com/f-lab-edu/show-your-worth/assets/11500877/68605232-e78f-4ff3-88cb-9cbbba9943c0)
