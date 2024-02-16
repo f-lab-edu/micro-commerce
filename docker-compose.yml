@@ -1,6 +1,22 @@
 version: '1'
 
 services:
+  mysql:
+    image: mysql:8.3
+    container_name: mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./.db/mysql/data:/var/lib/mysql
+      - ./.db/mysql/config:/etc/mysql/conf.d
+    networks:
+      - micro-commerce-network
+
   service-discovery:
     container_name: service-discovery
     build:
@@ -10,6 +26,8 @@ services:
       - "8761:8761"
     networks:
       - micro-commerce-network
+    depends_on:
+      - mysql
 
   config-server:
     container_name: config-server
@@ -42,6 +60,8 @@ services:
     build:
       context: ./micro-commerce-user
       dockerfile: Dockerfile
+    environment:
+      USE_PROFILE: dev
     networks:
       - micro-commerce-network
     depends_on:
@@ -55,6 +75,8 @@ services:
     build:
       context: ./micro-commerce-product
       dockerfile: Dockerfile
+    environment:
+      USE_PROFILE: dev
     networks:
       - micro-commerce-network
     depends_on:
@@ -68,6 +90,8 @@ services:
     build:
       context: ./micro-commerce-order
       dockerfile: Dockerfile
+    environment:
+      USE_PROFILE: dev
     networks:
       - micro-commerce-network
     depends_on:
