@@ -35,7 +35,8 @@ public class User extends BaseEntity {
     private UserType type;
 
     // TODO: entity 객체 생성 방식에 대해서
-    public static User getInstance(String email, String hashedPw, String name, String phoneNumber, UserType type) {
+    public static User getInstance(final String email, final String hashedPw, final String name,
+                                   final String phoneNumber, final UserType type) {
         return User.builder()
                 .email(email)
                 .password(hashedPw)

@@ -10,7 +10,6 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Map;
 
-
 @Component
 public class JwtUtil {
 
@@ -19,14 +18,14 @@ public class JwtUtil {
     @Value("#{new Long(${micro-commerce.jwt.expiration-time.access-token})}")
     private long ACCESS_TOKEN_EXPIRATION_TIME;
 
-    public String createToken(String subject, Map<String, String> data) {
-        Claims claims = Jwts.claims()
+    public String createToken(final String subject, final Map<String, String> data) {
+        final Claims claims = Jwts.claims()
                 .subject(subject)
                 .add(data)
                 .build();
 
-        Date now = new Date();
-        SecretKey secretKey = Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET_KEY.getBytes());
+        final Date now = new Date();
+        final SecretKey secretKey = Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET_KEY.getBytes());
 
         return Jwts.builder()
                 .claims(claims)

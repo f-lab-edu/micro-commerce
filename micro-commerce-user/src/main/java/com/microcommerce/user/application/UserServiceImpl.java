@@ -44,13 +44,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public SignInResDto signIn(final SignInReqDto body) {
-        Optional<User> oUser = userRepository.findByEmailAndType(body.email(), body.type());
+        final Optional<User> oUser = userRepository.findByEmailAndType(body.email(), body.type());
         if (oUser.isEmpty() || !passwordEncoder.matches(body.password(), oUser.get().getPassword())) {
-            log.error("111");
             throw new UserException(UserExceptionCode.INVALID_USER_INFO);
         }
 
-        String accessToken = jwtUtil.createToken(oUser.get().getId().toString(), Map.of("email", oUser.get().getEmail()));
+        final String accessToken = jwtUtil.createToken(oUser.get().getId().toString(), Map.of("email", oUser.get().getEmail()));
         return SignInResDto.getInstance(accessToken);
     }
 

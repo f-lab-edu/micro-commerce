@@ -14,8 +14,8 @@ public class UserExceptionHandler {
 
     // TODO: ExceptionHandler 동작 방식 알아보기
     @ExceptionHandler({UserException.class})
-    public ResponseEntity<ApiResult<?>> handlerUserException(UserException ex, HttpServletRequest req) {
-        UserExceptionCode code = ex.getCode();
+    public ResponseEntity<ApiResult<?>> handlerUserException(final UserException ex, final HttpServletRequest req) {
+        final UserExceptionCode code = ex.getCode();
 
         log.info("[UserException] URI: {}, METHOD: {}, MESSAGE: {}, status: {}",
                 req.getRequestURI(), req.getMethod(), code.getDescription(), code.getStatus().toString());
