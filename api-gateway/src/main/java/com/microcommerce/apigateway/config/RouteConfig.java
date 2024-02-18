@@ -11,13 +11,13 @@ public class RouteConfig {
     @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(r -> r.path("/users/**") //라우터 등록
+                .route(r -> r.path("/api/v*/users/**") //라우터 등록
                         .uri("lb://MICRO-COMMERCE-USER")
                 )
-                .route(r -> r.path("/products/**") //라우터 등록
+                .route(r -> r.path("/api/v*/products/**") //라우터 등록
                         .uri("lb://MICRO-COMMERCE-PRODUCT")
                 )
-                .route(r -> r.path("/orders/**") //라우터 등록
+                .route(r -> r.path("/api/v*/orders/**") //라우터 등록
                         .uri("lb://MICRO-COMMERCE-ORDER")
                 )
                 .build();

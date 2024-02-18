@@ -2,7 +2,7 @@ package com.microcommerce.user.dto.req;
 
 import com.microcommerce.user.domain.enums.UserType;
 
-public record SignupReqDto(String email,
+public record SignUpReqDto(String email,
 
                            String name,
 

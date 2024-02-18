@@ -22,3 +22,10 @@ eureka:
       defaultZone: http://service-discovery:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+
+micro-commerce:
+  jwt:
+    secret-key:
+      access-token: "MICRO-COMMERCE-JWT-ACCESS-TOKEN-SECRET-KEY"
+    expiration-time:
+      access-token: 60 * 60 * 1000
