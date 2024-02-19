@@ -55,10 +55,10 @@ services:
       service-discovery:
           condition: service_started
 
-  user:
-    container_name: micro-commerce-user
+  member-service:
+    container_name: micro-commerce-member
     build:
-      context: ./micro-commerce-user
+      context: ./micro-commerce-member
       dockerfile: Dockerfile
     environment:
       USE_PROFILE: dev
@@ -70,7 +70,7 @@ services:
       api-gateway:
         condition: service_started
 
-  product:
+  product-service:
     container_name: micro-commerce-product
     build:
       context: ./micro-commerce-product
@@ -85,7 +85,7 @@ services:
       api-gateway:
         condition: service_started
 
-  order:
+  order-service:
     container_name: micro-commerce-order
     build:
       context: ./micro-commerce-order
