@@ -29,18 +29,18 @@ services:
     depends_on:
       - mysql
 
-  config-server:
-    container_name: config-server
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
-    ports:
-      - "8888:8888"
-    networks:
-      - micro-commerce-network
-    depends_on:
-      service-discovery:
-        condition: service_started
+#  config-server:
+#    container_name: config-server
+#    build:
+#      context: ./config-server
+#      dockerfile: Dockerfile
+#    ports:
+#      - "8888:8888"
+#    networks:
+#      - micro-commerce-network
+#    depends_on:
+#      service-discovery:
+#        condition: service_started
 
   api-gateway:
     container_name: api-gateway
