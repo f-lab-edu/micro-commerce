@@ -1,7 +1,6 @@
 package com.microcommerce.member.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -25,14 +24,22 @@ public class JwtUtil {
                 .build();
 
         final Date now = new Date();
-        final SecretKey secretKey = Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET_KEY.getBytes());
 
         return Jwts.builder()
                 .claims(claims)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + ACCESS_TOKEN_EXPIRATION_TIME))
-                .signWith(secretKey, Jwts.SIG.HS256)
+                .signWith(getSecretKey(), Jwts.SIG.HS256)
                 .compact();
+    }
+
+    public Claims parseToken(final String token) {
+        Jwt<JwsHeader, Claims> jwt = Jwts.parser().verifyWith(getSecretKey()).build().parseSignedClaims(token);
+        return jwt.getPayload();
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET_KEY.getBytes());
     }
 
 }
