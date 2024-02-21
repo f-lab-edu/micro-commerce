@@ -2,9 +2,9 @@ package com.microcommerce.member.application;
 
 import com.microcommerce.member.domain.entity.Member;
 import com.microcommerce.member.domain.enums.MemberType;
-import com.microcommerce.member.domain.repository.MemberRepository;
-import com.microcommerce.member.dto.req.SignUpReqDto;
-import com.microcommerce.member.dto.res.SignUpResDto;
+import com.microcommerce.member.infrastructure.repository.MemberRepository;
+import com.microcommerce.member.domain.dto.req.SignUpReqDto;
+import com.microcommerce.member.domain.dto.res.SignUpResDto;
 import com.microcommerce.member.util.CustomPasswordEncoder;
 import com.microcommerce.member.util.JwtUtil;
 import org.junit.jupiter.api.DisplayName;

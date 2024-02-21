@@ -1,4 +1,4 @@
-package com.microcommerce.member.application.exception;
+package com.microcommerce.member.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

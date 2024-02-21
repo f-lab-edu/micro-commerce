@@ -1,4 +1,4 @@
-package com.microcommerce.member.dto.res;
+package com.microcommerce.member.domain.dto.res;
 
 import lombok.Builder;
 

@@ -1,4 +1,4 @@
-package com.microcommerce.member.domain.repository;
+package com.microcommerce.member.infrastructure.repository;
 
 import com.microcommerce.member.domain.entity.Member;
 import com.microcommerce.member.domain.enums.MemberType;

@@ -1,13 +1,13 @@
 package com.microcommerce.member.application;
 
-import com.microcommerce.member.application.exception.MemberException;
-import com.microcommerce.member.application.exception.MemberExceptionCode;
+import com.microcommerce.member.exception.MemberException;
+import com.microcommerce.member.exception.MemberExceptionCode;
 import com.microcommerce.member.domain.entity.Member;
-import com.microcommerce.member.domain.repository.MemberRepository;
-import com.microcommerce.member.dto.req.SignInReqDto;
-import com.microcommerce.member.dto.req.SignUpReqDto;
-import com.microcommerce.member.dto.res.SignInResDto;
-import com.microcommerce.member.dto.res.SignUpResDto;
+import com.microcommerce.member.infrastructure.repository.MemberRepository;
+import com.microcommerce.member.domain.dto.req.SignInReqDto;
+import com.microcommerce.member.domain.dto.req.SignUpReqDto;
+import com.microcommerce.member.domain.dto.res.SignInResDto;
+import com.microcommerce.member.domain.dto.res.SignUpResDto;
 import com.microcommerce.member.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.microcommerce.member.dto;
+package com.microcommerce.member.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;

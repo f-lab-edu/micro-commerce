@@ -1,4 +1,4 @@
-package com.microcommerce.member.dto.req;
+package com.microcommerce.member.domain.dto.req;
 
 import com.microcommerce.member.domain.enums.MemberType;
 

@@ -1,11 +1,11 @@
 package com.microcommerce.member.presentation;
 
 import com.microcommerce.member.application.MemberService;
-import com.microcommerce.member.dto.ApiResult;
-import com.microcommerce.member.dto.req.SignInReqDto;
-import com.microcommerce.member.dto.req.SignUpReqDto;
-import com.microcommerce.member.dto.res.SignInResDto;
-import com.microcommerce.member.dto.res.SignUpResDto;
+import com.microcommerce.member.domain.dto.ApiResult;
+import com.microcommerce.member.domain.dto.req.SignInReqDto;
+import com.microcommerce.member.domain.dto.req.SignUpReqDto;
+import com.microcommerce.member.domain.dto.res.SignInResDto;
+import com.microcommerce.member.domain.dto.res.SignUpResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
-package com.microcommerce.member.application.exception;
+package com.microcommerce.member.exception;
 
-import com.microcommerce.member.dto.ApiResult;
+import com.microcommerce.member.domain.dto.ApiResult;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
