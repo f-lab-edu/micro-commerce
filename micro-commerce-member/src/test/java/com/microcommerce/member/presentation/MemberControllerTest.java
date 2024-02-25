@@ -41,7 +41,7 @@ class MemberControllerTest {
 
         mvc.perform(
                         MockMvcRequestBuilders
-                                .post("/api/v1/users/sign-up")
+                                .post("/public-api/v1/members/sign-up")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(reqJson))
                 .andDo(MockMvcResultHandlers.print())
@@ -60,7 +60,7 @@ class MemberControllerTest {
 
         mvc.perform(
                         MockMvcRequestBuilders
-                                .post("/api/v1/users/sign-in")
+                                .post("/public-api/v1/members/sign-in")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(reqJson))
                 .andDo(MockMvcResultHandlers.print())

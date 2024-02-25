@@ -1,6 +1,7 @@
 package com.microcommerce.member.util;
 
 import com.microcommerce.member.domain.entity.Member;
+import com.microcommerce.member.domain.vo.JwtClaims;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -40,9 +41,8 @@ class JwtUtilTest {
     @DisplayName("jwt 토큰 유효성 테스트")
     @Test
     public void parseToken() {
-        Claims claims = jwtUtil.parseToken(token);
-        assertThat(claims.get("email")).isEqualTo("test@test.com");
-        assertThat(claims.getSubject()).isEqualTo("1");
+        JwtClaims claims = jwtUtil.parseToken(token);
+        assertThat(claims.userId()).isEqualTo("1");
 
     }
 

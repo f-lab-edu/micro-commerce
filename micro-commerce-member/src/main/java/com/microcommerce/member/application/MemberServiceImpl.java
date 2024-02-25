@@ -44,11 +44,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public SignInResDto signIn(final SignInReqDto body) {
-        final Optional<Member> oMember = memberRepository.findByEmailAndType(body.email(), body.type());
-        if (oMember.isEmpty() || !passwordEncoder.matches(body.password(), oMember.get().getPassword())) {
-            throw new MemberException(MemberExceptionCode.INVALID_USER_INFO);
-        }
-        final Member member = oMember.get();
+        final Member member = memberRepository.findByEmailAndType(body.email(), body.type())
+                .filter(m -> passwordEncoder.matches(body.password(), m.getPassword()))
+                .orElseThrow(() -> new MemberException(MemberExceptionCode.INVALID_USER_INFO));
 
         final String accessToken = jwtUtil.createToken(member.getId().toString(), Map.of("email", member.getEmail()));
         return SignInResDto.getInstance(accessToken);
