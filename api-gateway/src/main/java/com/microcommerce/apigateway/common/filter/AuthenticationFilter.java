@@ -3,8 +3,10 @@ package com.microcommerce.apigateway.common.filter;
 import com.microcommerce.apigateway.domain.dto.res.AuthResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.web.servlet.filter.OrderedFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -17,7 +19,7 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class AuthenticationFilter implements GatewayFilter {
+public class AuthenticationFilter implements GatewayFilter, Ordered {
 
     private final WebClient.Builder webClientBuilder;
 
@@ -38,22 +40,20 @@ public class AuthenticationFilter implements GatewayFilter {
                                 .header("x-user-id", response.data().userId().toString())
                                 .build();
                         return chain.filter(exchange.mutate().request(newReq).build()); // 요청 진행
-                    } else {
-                        ServerHttpResponse httpResponse = exchange.getResponse();
-                        httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-                        return httpResponse.setComplete();
                     }
+                    final ServerHttpResponse httpResponse = exchange.getResponse();
+                    httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+                    return httpResponse.setComplete();
                 }).onErrorResume(e -> {
-                    log.error(e.getMessage());
                     ServerHttpResponse httpResponse = exchange.getResponse();
-                    httpResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                    httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
                     return httpResponse.setComplete();
                 });
     }
 
-//    @Override
-//    public int getOrder() {
-//        return -1;
-//    }
+    @Override
+    public int getOrder() {
+        return -1;
+    }
 
 }

@@ -4,8 +4,11 @@ import com.microcommerce.member.application.MemberService;
 import com.microcommerce.member.domain.dto.ApiResult;
 import com.microcommerce.member.domain.dto.req.SignInReqDto;
 import com.microcommerce.member.domain.dto.req.SignUpReqDto;
+import com.microcommerce.member.domain.dto.res.ProfileResDto;
 import com.microcommerce.member.domain.dto.res.SignInResDto;
 import com.microcommerce.member.domain.dto.res.SignUpResDto;
+import com.microcommerce.member.exception.MemberException;
+import com.microcommerce.member.exception.MemberExceptionCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -31,12 +34,12 @@ public class MemberController {
     }
 
     @GetMapping("/api/v1/members/{userId}/profile")
-    public ResponseEntity<ApiResult<String>> getProfile(@RequestHeader HttpHeaders header, @PathVariable("userId") final int userId) {
+    public ResponseEntity<ApiResult<ProfileResDto>> getProfile(@RequestHeader HttpHeaders header, @PathVariable("userId") final long userId) {
         String tokenUid = header.getFirst("x-user-id");
-        if (!Integer.toString(userId).equals(tokenUid)) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ApiResult.fail("Forbidden"));
+        if (!Long.toString(userId).equals(tokenUid)) {
+            throw new MemberException(MemberExceptionCode.FORBIDDEN);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResult.success("성공"));
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResult.success(memberService.getProfile(userId)));
     }
 
 }

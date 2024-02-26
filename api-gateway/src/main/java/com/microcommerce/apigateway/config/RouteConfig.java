@@ -9,15 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RouteConfig {
 
-//    @Autowired
-//    private GlobalAuthFilter globalAuthFilter;
-
-//    @Bean
-//    public GlobalFilter setGlobalFilter() {
-//        return  globalAuthFilter;
-//
-//    }
-
     @Bean
     public RouteLocator gatewayRoutes(RouteLocatorBuilder builder, AuthenticationFilter authenticationFilter) {
         return builder.routes()

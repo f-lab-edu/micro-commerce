@@ -13,6 +13,11 @@ public enum MemberExceptionCode {
             "이미 존재하는 유저 이메일"
     ),
 
+    FORBIDDEN(
+            HttpStatus.FORBIDDEN, "FORBIDDEN",
+            "잘못된 접근 권한"
+    ),
+
     INVALID_USER_INFO(
             HttpStatus.BAD_REQUEST, "INVALID_USER_INFO",
             "잘못된 로그인 정보입니다."

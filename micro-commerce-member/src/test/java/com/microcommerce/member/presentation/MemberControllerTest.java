@@ -2,6 +2,7 @@ package com.microcommerce.member.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microcommerce.member.application.MemberServiceImpl;
+import com.microcommerce.member.domain.dto.res.ProfileResDto;
 import com.microcommerce.member.domain.enums.MemberType;
 import com.microcommerce.member.domain.dto.req.SignInReqDto;
 import com.microcommerce.member.domain.dto.req.SignUpReqDto;
@@ -66,6 +67,11 @@ class MemberControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.accessToken").value("TestAccessToken..."));
+    }
+
+    @Test
+    public void getProfile() {
+        // TODO
     }
 
 }
