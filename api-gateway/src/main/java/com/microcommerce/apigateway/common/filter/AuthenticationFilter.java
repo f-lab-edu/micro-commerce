@@ -3,7 +3,6 @@ package com.microcommerce.apigateway.common.filter;
 import com.microcommerce.apigateway.domain.dto.res.AuthResDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.web.servlet.filter.OrderedFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;

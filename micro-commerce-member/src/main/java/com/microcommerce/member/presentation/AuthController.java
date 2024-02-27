@@ -22,7 +22,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/api/v1/auth")
-    public ResponseEntity<ApiResult<AuthResDto>> authenticate(final @RequestHeader HttpHeaders header) {
+    public ResponseEntity<ApiResult<AuthResDto>> authenticate(@RequestHeader final HttpHeaders header) {
         final String authorizationHeader = header.getFirst(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResult.fail(HttpStatus.UNAUTHORIZED.name()));

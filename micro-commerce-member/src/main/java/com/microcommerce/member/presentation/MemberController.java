@@ -34,8 +34,8 @@ public class MemberController {
     }
 
     @GetMapping("/api/v1/members/{userId}/profile")
-    public ResponseEntity<ApiResult<ProfileResDto>> getProfile(@RequestHeader HttpHeaders header, @PathVariable("userId") final long userId) {
-        String tokenUid = header.getFirst("x-user-id");
+    public ResponseEntity<ApiResult<ProfileResDto>> getProfile(@RequestHeader final HttpHeaders header, @PathVariable("userId") final long userId) {
+        final String tokenUid = header.getFirst("x-user-id");
         if (!Long.toString(userId).equals(tokenUid)) {
             throw new MemberException(MemberExceptionCode.FORBIDDEN);
         }
