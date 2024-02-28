@@ -2,6 +2,7 @@ package com.microcommerce.member.domain.repository;
 
 import com.microcommerce.member.domain.entity.Member;
 import com.microcommerce.member.domain.enums.MemberType;
+import com.microcommerce.member.infrastructure.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

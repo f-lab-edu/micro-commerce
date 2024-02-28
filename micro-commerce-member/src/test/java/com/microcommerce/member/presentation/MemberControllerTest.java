@@ -2,11 +2,11 @@ package com.microcommerce.member.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microcommerce.member.application.MemberServiceImpl;
+import com.microcommerce.member.domain.dto.req.SignInReqDto;
+import com.microcommerce.member.domain.dto.req.SignUpReqDto;
+import com.microcommerce.member.domain.dto.res.SignInResDto;
+import com.microcommerce.member.domain.dto.res.SignUpResDto;
 import com.microcommerce.member.domain.enums.MemberType;
-import com.microcommerce.member.dto.req.SignInReqDto;
-import com.microcommerce.member.dto.req.SignUpReqDto;
-import com.microcommerce.member.dto.res.SignInResDto;
-import com.microcommerce.member.dto.res.SignUpResDto;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ class MemberControllerTest {
 
         mvc.perform(
                         MockMvcRequestBuilders
-                                .post("/api/v1/users/sign-up")
+                                .post("/public-api/v1/members/sign-up")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(reqJson))
                 .andDo(MockMvcResultHandlers.print())
@@ -60,12 +60,17 @@ class MemberControllerTest {
 
         mvc.perform(
                         MockMvcRequestBuilders
-                                .post("/api/v1/users/sign-in")
+                                .post("/public-api/v1/members/sign-in")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(reqJson))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("data.accessToken").value("TestAccessToken..."));
+    }
+
+    @Test
+    public void getProfile() {
+        // TODO
     }
 
 }

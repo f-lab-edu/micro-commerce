@@ -1,15 +1,11 @@
 package com.microcommerce.member.util;
 
-import com.microcommerce.member.domain.entity.Member;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
+import com.microcommerce.member.domain.vo.JwtClaims;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Map;
@@ -40,9 +36,8 @@ class JwtUtilTest {
     @DisplayName("jwt 토큰 유효성 테스트")
     @Test
     public void parseToken() {
-        Claims claims = jwtUtil.parseToken(token);
-        assertThat(claims.get("email")).isEqualTo("test@test.com");
-        assertThat(claims.getSubject()).isEqualTo("1");
+        JwtClaims claims = jwtUtil.parseToken(token);
+        assertThat(claims.userId()).isEqualTo("1");
 
     }
 

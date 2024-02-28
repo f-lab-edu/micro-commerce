@@ -5,6 +5,17 @@ spring:
   application:
     name: micro-commerce-order
 
+  kafka:
+    producer:
+      bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: earliest
+
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
