@@ -100,6 +100,62 @@ services:
       api-gateway:
         condition: service_started
 
+  zookeeper:
+    image: bitnami/zookeeper:3.9.1
+    container_name: zookeeper
+    networks:
+      - micro-commerce-network
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: yes
+
+  kafka-1:
+    image: bitnami/kafka:3.6.1
+    container_name: kafka-1
+    depends_on:
+      - zookeeper
+    networks:
+      - micro-commerce-network
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  kafka-2:
+    image: bitnami/kafka:3.6.1
+    container_name: kafka-2
+    depends_on:
+      - zookeeper
+    networks:
+      - micro-commerce-network
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  kafka-3:
+    image: bitnami/kafka:3.6.1
+    container_name: kafka-3
+    depends_on:
+      - zookeeper
+    networks:
+      - micro-commerce-network
+    environment:
+      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    depends_on:
+      - zookeeper
+      - kafka-1
+      - kafka-2
+      - kafka-3
+    networks:
+      - micro-commerce-network
+    ports:
+      - "8989:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9092,kafka-2:9092,kafka-3:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+
 networks:
   micro-commerce-network:
     driver: bridge
