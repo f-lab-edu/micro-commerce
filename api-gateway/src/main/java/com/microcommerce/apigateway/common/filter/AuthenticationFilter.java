@@ -1,6 +1,6 @@
 package com.microcommerce.apigateway.common.filter;
 
-import com.microcommerce.apigateway.domain.dto.res.AuthResDto;
+import com.microcommerce.apigateway.domain.dto.res.UserData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -32,11 +32,11 @@ public class AuthenticationFilter implements GatewayFilter, Ordered {
                 .uri("http://MICRO-COMMERCE-MEMBER/api/v1/auth")
                 .header(HttpHeaders.AUTHORIZATION, token)
                 .retrieve()
-                .bodyToMono(AuthResDto.class)
+                .bodyToMono(UserData.class)
                 .flatMap(response -> {
-                    if (response.success()) {
+                    if (response.userId() != null) {
                         final ServerHttpRequest newReq = exchange.getRequest().mutate()
-                                .header("x-user-id", response.data().userId().toString())
+                                .header("x-user-id", response.userId().toString())
                                 .build();
                         return chain.filter(exchange.mutate().request(newReq).build()); // 요청 진행
                     }

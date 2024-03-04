@@ -16,6 +16,10 @@ spring:
         format_sql: true
     hibernate:
       ddl-auto: update
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 eureka:
   instance:

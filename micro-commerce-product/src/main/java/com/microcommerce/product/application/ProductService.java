@@ -1,6 +1,5 @@
 package com.microcommerce.product.application;
 
-import com.microcommerce.product.domain.dto.ApiResult;
 import com.microcommerce.product.domain.dto.feign.res.ProfileResDto;
 import com.microcommerce.product.domain.dto.res.CreateProductResDto;
 import com.microcommerce.product.domain.entity.Product;
@@ -23,12 +22,13 @@ public class ProductService {
     private final MemberClient memberClient;
 
     public CreateProductResDto createProduct(CreateProductVo data) {
-        final ApiResult<ProfileResDto> profile = memberClient.getProfile(data.sellerId());
-        if (!profile.isSuccess() || profile.getData() == null) {
+        // TODO: feign 응답값을 Optional로 받아야하는지
+        final ProfileResDto profile = memberClient.getProfile(data.sellerId());
+        if (profile == null) {
             throw new ProductException(ProductExceptionCode.USER_NOT_FOUND);
         }
 
-        final Product product = productRepository.save(Product.getInstance(data, profile.getData().name()));
+        final Product product = productRepository.save(Product.getInstance(data, profile.name()));
         return CreateProductResDto.getInstance(product.getName(), product.getPrice(), product.getStock());
     }
 

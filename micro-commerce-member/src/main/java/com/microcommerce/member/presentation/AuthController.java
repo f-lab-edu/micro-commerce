@@ -1,17 +1,18 @@
 package com.microcommerce.member.presentation;
 
-import com.microcommerce.member.domain.dto.ApiResult;
 import com.microcommerce.member.domain.dto.res.AuthResDto;
 import com.microcommerce.member.domain.vo.JwtClaims;
+import com.microcommerce.member.exception.MemberException;
+import com.microcommerce.member.exception.MemberExceptionCode;
 import com.microcommerce.member.util.JwtUtil;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -21,11 +22,12 @@ public class AuthController {
 
     private final JwtUtil jwtUtil;
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/v1/auth")
-    public ResponseEntity<ApiResult<AuthResDto>> authenticate(@RequestHeader final HttpHeaders header) {
+    public AuthResDto authenticate(@RequestHeader final HttpHeaders header) {
         final String authorizationHeader = header.getFirst(HttpHeaders.AUTHORIZATION);
         if (authorizationHeader == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResult.fail(HttpStatus.UNAUTHORIZED.name()));
+            throw new MemberException(MemberExceptionCode.UNAUTHORIZED);
         }
         final String jwt = jwtUtil.extractToken(authorizationHeader);
 
@@ -34,10 +36,10 @@ public class AuthController {
             claims = jwtUtil.parseToken(jwt);
         } catch (JwtException je) {
             log.error(je.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiResult.fail(HttpStatus.UNAUTHORIZED.name()));
+            throw new MemberException(MemberExceptionCode.UNAUTHORIZED);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResult.success(AuthResDto.getInstance(claims.userId())));
+        return AuthResDto.getInstance(claims.userId());
     }
 
 }
