@@ -44,19 +44,19 @@ public class MemberService {
     }
 
     public SignInResDto signIn(final SignInReqDto body) {
-        final Member member = memberRepository.findByEmailAndType(body.email(), body.type())
+        return memberRepository.findByEmailAndType(body.email(), body.type())
                 .filter(m -> passwordEncoder.matches(body.password(), m.getPassword()))
+                .map(m -> {
+                    final String accessToken = jwtUtil.createToken(m.getId().toString(), Map.of("email", m.getEmail()));
+                    return SignInResDto.getInstance(accessToken);
+                })
                 .orElseThrow(() -> new MemberException(MemberExceptionCode.INVALID_USER_INFO));
-
-        final String accessToken = jwtUtil.createToken(member.getId().toString(), Map.of("email", member.getEmail()));
-        return SignInResDto.getInstance(accessToken);
     }
 
     public ProfileResDto getProfile(final Long userId) {
-        final Member member = memberRepository.findById(userId)
+        return memberRepository.findById(userId)
+                .map(ProfileResDto::getInstance)
                 .orElseThrow(() -> new MemberException(MemberExceptionCode.INVALID_USER_INFO));
-
-        return ProfileResDto.getInstance(member);
     }
 
 }
