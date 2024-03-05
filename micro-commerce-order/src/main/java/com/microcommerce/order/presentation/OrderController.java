@@ -17,7 +17,7 @@ public class OrderController {
     private final OrderService orderService;
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/api/v1/order")
+    @PostMapping("/api/v1/orders")
     void order(@RequestBody OrderReqDto req) {
         orderService.order(OrderVo.getInstance(req));
     }

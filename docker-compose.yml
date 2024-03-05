@@ -100,6 +100,21 @@ services:
       api-gateway:
         condition: service_started
 
+  order-consumer:
+    container_name: micro-commerce-order-consumer
+    build:
+      context: ./micro-commerce-order-consumer
+      dockerfile: Dockerfile
+    environment:
+      USE_PROFILE: dev
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+      api-gateway:
+        condition: service_started
+
   zookeeper:
     image: bitnami/zookeeper:3.9.1
     container_name: zookeeper
@@ -116,7 +131,8 @@ services:
     networks:
       - micro-commerce-network
     environment:
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9092
 
   kafka-2:
     image: bitnami/kafka:3.6.1
@@ -126,7 +142,8 @@ services:
     networks:
       - micro-commerce-network
     environment:
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-2:9092
 
   kafka-3:
     image: bitnami/kafka:3.6.1
@@ -136,7 +153,8 @@ services:
     networks:
       - micro-commerce-network
     environment:
-      KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-3:9092
 
   kafka-ui:
     image: provectuslabs/kafka-ui

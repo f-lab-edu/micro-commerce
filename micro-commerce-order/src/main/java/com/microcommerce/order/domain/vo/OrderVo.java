@@ -21,6 +21,7 @@ public record OrderVo(
                 .quantity(data.quantity())
                 .address(data.address())
                 .zipcode(data.zipcode())
+                .paymentMethod(data.paymentMethod())
                 .build();
     }
 

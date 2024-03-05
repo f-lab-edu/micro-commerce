@@ -1,6 +1,7 @@
 package com.microcommerce.order.application;
 
 import com.microcommerce.order.domain.vo.OrderVo;
+import com.microcommerce.order.domain.vo.kafka.OrderRecord;
 import com.microcommerce.order.infrastructure.kafka.KafkaProducer;
 import com.microcommerce.order.infrastructure.kafka.KafkaTopic;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,9 @@ public class OrderService {
 
     private final KafkaProducer kafkaProducer;
 
-    public void order(OrderVo data) {
-        kafkaProducer.send(KafkaTopic.ORDER, data);
+    public void order(OrderVo vo) {
+        final OrderRecord record = OrderRecord.getInstance(vo);
+        kafkaProducer.send(KafkaTopic.ORDER, record);
     }
 
 }
