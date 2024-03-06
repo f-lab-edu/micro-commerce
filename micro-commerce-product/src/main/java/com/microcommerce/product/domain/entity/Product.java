@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Product {
+public class Product extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +37,7 @@ public class Product {
     @Column
     private String category;
 
+    @Lob
     @Column
     private String description;
 
@@ -46,12 +47,6 @@ public class Product {
 
     @Column
     private Long stock;
-
-    @Column
-    private LocalDateTime createdAt;
-
-    @Column
-    private LocalDateTime updatedAt;
 
     public static Product getInstance(CreateProductVo data, String sellerName) {
         return Product.builder()
