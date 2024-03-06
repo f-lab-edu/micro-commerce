@@ -2,27 +2,22 @@ package com.microcommerce.order.domain.vo;
 
 import com.microcommerce.order.domain.dto.req.OrderReqDto;
 import com.microcommerce.order.domain.enums.PaymentMethod;
-import lombok.Builder;
 
-@Builder
+import java.util.List;
+
 public record OrderVo(
-        Long productId,
         Long userId,
-        Integer quantity,
         String address,
         String zipcode,
-        PaymentMethod paymentMethod
+        PaymentMethod paymentMethod,
+        List<OrderDetailVo> products
 ) {
 
-    public static OrderVo getInstance(OrderReqDto data) {
-        return OrderVo.builder()
-                .productId(data.productId())
-                .userId(data.userId())
-                .quantity(data.quantity())
-                .address(data.address())
-                .zipcode(data.zipcode())
-                .paymentMethod(data.paymentMethod())
-                .build();
+    public static OrderVo getInstance(OrderReqDto dto) {
+        return new OrderVo(
+                dto.userId(), dto.address(), dto.zipcode(), dto.paymentMethod(),
+                dto.products().stream().map(OrderDetailVo::getInstance).toList()
+        );
     }
 
 }

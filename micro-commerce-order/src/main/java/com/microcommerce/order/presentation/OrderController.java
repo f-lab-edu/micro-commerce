@@ -3,6 +3,8 @@ package com.microcommerce.order.presentation;
 import com.microcommerce.order.application.OrderService;
 import com.microcommerce.order.domain.dto.req.OrderReqDto;
 import com.microcommerce.order.domain.vo.OrderVo;
+import com.microcommerce.order.exception.OrderException;
+import com.microcommerce.order.exception.OrderExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,9 @@ public class OrderController {
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/v1/orders")
     void order(@RequestBody OrderReqDto req) {
+        if (req.products() == null || req.products().isEmpty()) {
+            throw new OrderException(OrderExceptionCode.BAD_REQUEST);
+        }
         orderService.order(OrderVo.getInstance(req));
     }
 

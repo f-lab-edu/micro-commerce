@@ -1,4 +1,4 @@
-package com.microcommerce.orderconsumer.presentation;
+package com.microcommerce.orderconsumer.domain.constant;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
