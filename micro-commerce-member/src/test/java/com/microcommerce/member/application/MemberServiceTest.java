@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MemberServiceTest {
 
     @InjectMocks
-    MemberServiceImpl memberService;
+    MemberService memberService;
 
     @Spy
     private CustomPasswordEncoder passwordEncoder;

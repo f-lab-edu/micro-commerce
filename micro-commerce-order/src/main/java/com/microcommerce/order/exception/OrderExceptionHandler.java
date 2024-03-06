@@ -1,6 +1,5 @@
 package com.microcommerce.order.exception;
 
-import com.microcommerce.order.domain.dto.ApiResult;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +13,13 @@ public class OrderExceptionHandler {
 
     // TODO: ExceptionHandler 동작 방식 알아보기
     @ExceptionHandler({OrderException.class})
-    public ResponseEntity<ApiResult<?>> handlerUserException(final OrderException ex, final HttpServletRequest req) {
+    public ResponseEntity<String> handlerUserException(final OrderException ex, final HttpServletRequest req) {
         final OrderExceptionCode code = ex.getCode();
 
-        log.info("[UserException] URI: {}, METHOD: {}, MESSAGE: {}, status: {}",
+        log.info("[OrderException] URI: {}, METHOD: {}, MESSAGE: {}, status: {}",
                 req.getRequestURI(), req.getMethod(), code.getDescription(), code.getStatus().toString());
 
-        return ResponseEntity.status(code.getStatus()).body(ApiResult.fail(code.getCode()));
+        return ResponseEntity.status(code.getStatus()).body(code.getCode());
     }
 
 }

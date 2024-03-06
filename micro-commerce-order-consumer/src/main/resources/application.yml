@@ -1,0 +1,13 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: micro-commerce-order-consumer
+
+  kafka:
+    consumer:
+      bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest

@@ -10,7 +10,6 @@ public class KafkaProducer {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    // FIXME: producer 위치
     public void send(String topic, Object message) {
         kafkaTemplate.send(topic, message);
     }

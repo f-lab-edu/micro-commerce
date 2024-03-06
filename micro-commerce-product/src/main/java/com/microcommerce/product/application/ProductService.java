@@ -1,10 +1,35 @@
 package com.microcommerce.product.application;
 
+import com.microcommerce.product.domain.dto.feign.res.ProfileResDto;
 import com.microcommerce.product.domain.dto.res.CreateProductResDto;
+import com.microcommerce.product.domain.entity.Product;
 import com.microcommerce.product.domain.vo.CreateProductVo;
+import com.microcommerce.product.exception.ProductException;
+import com.microcommerce.product.exception.ProductExceptionCode;
+import com.microcommerce.product.infrastructure.feign.MemberClient;
+import com.microcommerce.product.infrastructure.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-public interface ProductService {
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class ProductService {
 
-    CreateProductResDto createProduct(CreateProductVo data);
+    private final ProductRepository productRepository;
+
+    private final MemberClient memberClient;
+
+    public CreateProductResDto createProduct(CreateProductVo data) {
+        // TODO: feign 응답값을 Optional로 받아야하는지
+        final ProfileResDto profile = memberClient.getProfile(data.sellerId());
+        if (profile == null) {
+            throw new ProductException(ProductExceptionCode.USER_NOT_FOUND);
+        }
+
+        final Product product = productRepository.save(Product.getInstance(data, profile.name()));
+        return CreateProductResDto.getInstance(product.getName(), product.getPrice(), product.getStock());
+    }
 
 }

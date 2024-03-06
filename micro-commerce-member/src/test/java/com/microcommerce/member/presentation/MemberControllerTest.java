@@ -1,7 +1,7 @@
 package com.microcommerce.member.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microcommerce.member.application.MemberServiceImpl;
+import com.microcommerce.member.application.MemberService;
 import com.microcommerce.member.domain.dto.req.SignInReqDto;
 import com.microcommerce.member.domain.dto.req.SignUpReqDto;
 import com.microcommerce.member.domain.dto.res.SignInResDto;
@@ -27,7 +27,7 @@ class MemberControllerTest {
     MockMvc mvc;
 
     @MockBean
-    MemberServiceImpl memberService;
+    MemberService memberService;
 
     @Test
     public void signUp() throws Exception {
