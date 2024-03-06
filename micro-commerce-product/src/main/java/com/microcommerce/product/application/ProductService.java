@@ -40,8 +40,8 @@ public class ProductService {
         return CreateProductResDto.getInstance(product.getName(), product.getPrice(), product.getStock());
     }
 
-    public List<ProductResDto> getProducts() {
-        return productRepository.getProducts();
+    public List<ProductResDto> getProducts(final List<Long> ids) {
+        return productRepository.getProducts(ids);
     }
 
     public ProductDetailResDto getProduct(final Long productId) {

@@ -18,6 +18,11 @@ public enum OrderExceptionCode {
             "잘못된 접근 권한"
     ),
 
+    BAD_REQUEST(
+            HttpStatus.BAD_REQUEST, "BAD_REQUEST",
+            "잘못된 요청 정보"
+    ),
+
     USER_NOT_FOUND(
             HttpStatus.BAD_REQUEST, "USER_NOT_FOUND",
             "잘못된 접근 권한"

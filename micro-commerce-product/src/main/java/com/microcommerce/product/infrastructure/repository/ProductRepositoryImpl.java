@@ -17,7 +17,7 @@ public class ProductRepositoryImpl implements ProductCustomRepository {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<ProductResDto> getProducts() {
+    public List<ProductResDto> getProducts(final List<Long> ids) {
         return jpaQueryFactory.select(
                         Projections.fields(ProductResDto.class,
                                 product.id.as("id"),
@@ -30,6 +30,7 @@ public class ProductRepositoryImpl implements ProductCustomRepository {
                 .from(product)
                 .leftJoin(productImage)
                 .on(product.id.eq(productImage.productId), productImage.displayOrder.eq(1))
+                .where(ids.isEmpty() ? null : product.id.in(ids))
                 .fetch();
     }
 

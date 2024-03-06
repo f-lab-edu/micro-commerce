@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ProductCustomRepository {
 
-    List<ProductResDto> getProducts();
+    List<ProductResDto> getProducts(List<Long> ids);
 
 }

@@ -33,8 +33,8 @@ public class ProductController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/public-api/v1/products")
-    public List<ProductResDto> getProducts() {
-        return productService.getProducts();
+    public List<ProductResDto> getProducts(@RequestParam(name = "ids", required = false) final List<Long> ids) {
+        return productService.getProducts(ids);
     }
 
     @ResponseStatus(HttpStatus.OK)

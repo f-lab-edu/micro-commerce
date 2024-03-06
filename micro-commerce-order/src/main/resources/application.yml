@@ -5,6 +5,20 @@ spring:
   application:
     name: micro-commerce-order
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/order
+    username: root
+    password: admin
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
   kafka:
     producer:
       bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
