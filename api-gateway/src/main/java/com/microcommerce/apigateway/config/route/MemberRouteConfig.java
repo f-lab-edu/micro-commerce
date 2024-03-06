@@ -13,7 +13,7 @@ public class MemberRouteConfig {
     public RouteLocator memberRoutes(final RouteLocatorBuilder builder, final AuthenticationFilter authenticationFilter) {
         return builder.routes()
                 .route(r -> r.path("/api/v*/members/**")
-                        .filters(f -> f.filter(authenticationFilter))
+                        .filters(f -> f.filter(authenticationFilter.apply(new AuthenticationFilter.Config())))
                         .uri("lb://MICRO-COMMERCE-MEMBER")
                 )
                 .route(r -> r.path("/public-api/v*/members/**")

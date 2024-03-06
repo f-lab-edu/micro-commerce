@@ -13,7 +13,7 @@ public class ProductRouteConfig {
     public RouteLocator productRoutes(final RouteLocatorBuilder builder, final AuthenticationFilter authenticationFilter) {
         return builder.routes()
                 .route(r -> r.path("/api/v*/products/**")
-                        .filters(f -> f.filter(authenticationFilter))
+                        .filters(f -> f.filter(authenticationFilter.apply(new AuthenticationFilter.Config())))
                         .uri("lb://MICRO-COMMERCE-PRODUCT")
                 )
                 .route(r -> r.path("/public-api/v*/products/**")
