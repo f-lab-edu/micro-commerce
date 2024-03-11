@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microcommerce.orderconsumer.application.OrderService;
 import com.microcommerce.orderconsumer.domain.constant.KafkaTopic;
-import com.microcommerce.orderconsumer.domain.vo.OrderVo;
 import com.microcommerce.orderconsumer.domain.vo.kafka.OrderRecord;
+import com.microcommerce.orderconsumer.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -19,6 +19,8 @@ public class OrderConsumer {
 
     private final OrderService orderService;
 
+    private final OrderMapper orderMapper;
+
     private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = KafkaTopic.ORDER, groupId = "order-service")
@@ -31,7 +33,7 @@ public class OrderConsumer {
             return;
         }
 
-        orderService.order(OrderVo.getInstance(order));
+        orderService.order(orderMapper.OrderRecordToVo(order));
     }
 
 }

@@ -2,10 +2,7 @@ package com.microcommerce.orderconsumer.domain.entity;
 
 import com.microcommerce.orderconsumer.domain.enums.PaymentMethod;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 

@@ -2,7 +2,8 @@ package com.microcommerce.orderconsumer.domain.dto.feign.res;
 
 public record ProductResDto(Long id,
                             String name,
-                            Long price,
+                            long price,
                             String imageUrl,
-                            String sellerName) {
+                            String sellerName,
+                            int stock) {
 }

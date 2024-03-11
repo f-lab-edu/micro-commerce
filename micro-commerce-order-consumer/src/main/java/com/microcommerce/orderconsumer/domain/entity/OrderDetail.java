@@ -1,10 +1,8 @@
 package com.microcommerce.orderconsumer.domain.entity;
 
+import com.microcommerce.orderconsumer.domain.enums.OrderDetailStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -17,6 +15,7 @@ public class OrderDetail extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private Long orderId;
 
@@ -33,12 +32,24 @@ public class OrderDetail extends BaseEntity {
     private Long price;
 
     @Column(nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Column(nullable = false)
     private Long sellerId;
 
     @Column(nullable = false)
     private String sellerName;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderDetailStatus status;
+
+    public void setProductInfo(String productName, String productImage, Long price, String sellerName) {
+        this.productName = productName;
+        this.productImage = productImage;
+        this.price = price;
+        this.sellerName = sellerName;
+    }
 
 }

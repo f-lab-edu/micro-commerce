@@ -1,10 +1,11 @@
 package com.microcommerce.orderconsumer.infrastructure.feign;
 
+import com.microcommerce.orderconsumer.domain.dto.feign.req.DecreaseStockReqDto;
+import com.microcommerce.orderconsumer.domain.dto.feign.res.DecreaseStockResDto;
 import com.microcommerce.orderconsumer.domain.dto.feign.res.ProductResDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,5 +15,8 @@ public interface ProductClient {
 
     @GetMapping(value = "/public-api/v1/products")
     List<ProductResDto> getProducts(@RequestParam("ids") List<Long> productId);
+
+    @PatchMapping(value = "/api/v1/products/{productId}/stock")
+    DecreaseStockResDto decreaseStock(@PathVariable Long productId, @RequestBody DecreaseStockReqDto body);
 
 }
