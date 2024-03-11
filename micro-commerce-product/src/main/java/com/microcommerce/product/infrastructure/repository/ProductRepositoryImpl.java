@@ -4,7 +4,6 @@ import com.microcommerce.product.domain.dto.res.ProductResDto;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

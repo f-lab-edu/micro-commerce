@@ -26,6 +26,11 @@ public enum ProductExceptionCode {
     INTERNAL_REQUEST_ERROR(
             HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_REQUEST_ERROR",
             "내부 서비스 호출 시 오휴"
+    ),
+
+    EXCEED_STOCK(
+            HttpStatus.OK, "EXCEED_STOCK",
+            "내부 서비스 호출 시 오휴"
     );
 
     private final HttpStatus status;

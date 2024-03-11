@@ -8,8 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
 @AllArgsConstructor
@@ -60,6 +58,10 @@ public class Product extends BaseEntity {
                 .stock(data.stock())
                 .build();
 
+    }
+
+    public void decreaseStock(int quantity) {
+        this.stock = this.stock - quantity;
     }
 
 }
