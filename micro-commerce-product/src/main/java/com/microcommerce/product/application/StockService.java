@@ -1,6 +1,7 @@
 package com.microcommerce.product.application;
 
 import com.microcommerce.product.domain.dto.res.DecreaseStockResDto;
+import com.microcommerce.product.domain.dto.res.SetStockResDto;
 import com.microcommerce.product.domain.entity.Product;
 import com.microcommerce.product.exception.ProductException;
 import com.microcommerce.product.exception.ProductExceptionCode;
@@ -17,7 +18,6 @@ public class StockService {
 
     @Transactional
     public DecreaseStockResDto decreaseStock(Long productId, Integer quantity) {
-        // FIXME: 람다식 변환
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException(ProductExceptionCode.INTERNAL_REQUEST_ERROR));
 
@@ -27,6 +27,15 @@ public class StockService {
 
         product.decreaseStock(quantity);
         return new DecreaseStockResDto(true);
+    }
+
+    @Transactional
+    public SetStockResDto setStock(Long productId, Integer quantity) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductException(ProductExceptionCode.INTERNAL_REQUEST_ERROR));
+
+        product.setStock(quantity);
+        return new SetStockResDto(true);
     }
 
 }

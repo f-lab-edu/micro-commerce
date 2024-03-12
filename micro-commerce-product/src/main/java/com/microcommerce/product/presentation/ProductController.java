@@ -5,7 +5,7 @@ import com.microcommerce.product.domain.dto.req.CreateProductReqDto;
 import com.microcommerce.product.domain.dto.res.CreateProductResDto;
 import com.microcommerce.product.domain.dto.res.ProductDetailResDto;
 import com.microcommerce.product.domain.dto.res.ProductResDto;
-import com.microcommerce.product.domain.vo.CreateProductVo;
+import com.microcommerce.product.mapper.ProductMapper;
 import com.microcommerce.product.util.HeaderCheckUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,15 +20,16 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-
     private final ProductService productService;
+
+    private final ProductMapper productMapper;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/v1/products")
     public CreateProductResDto createProduct(@RequestHeader final HttpHeaders header,
                                              @RequestBody final CreateProductReqDto req) {
         HeaderCheckUtil.checkUserId(header, req.sellerId());
-        return productService.createProduct(CreateProductVo.getInstance(req));
+        return productService.createProduct(productMapper.toCreateProductVo(req));
     }
 
     @ResponseStatus(HttpStatus.OK)

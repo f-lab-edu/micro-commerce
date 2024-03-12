@@ -3,9 +3,9 @@ package com.microcommerce.product.domain.dto.req;
 public record CreateProductReqDto(
         Long sellerId,
         String name,
-        Long price,
+        Integer price,
         String category,
         String description,
-        Long stock
+        Integer stock
 ) {
 }

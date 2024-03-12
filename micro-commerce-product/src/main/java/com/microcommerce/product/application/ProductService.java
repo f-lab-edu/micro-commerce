@@ -12,6 +12,7 @@ import com.microcommerce.product.exception.ProductExceptionCode;
 import com.microcommerce.product.infrastructure.feign.MemberClient;
 import com.microcommerce.product.infrastructure.repository.ProductImageRepository;
 import com.microcommerce.product.infrastructure.repository.ProductRepository;
+import com.microcommerce.product.mapper.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,15 +30,16 @@ public class ProductService {
 
     private final MemberClient memberClient;
 
+    private final ProductMapper productMapper;
+
     public CreateProductResDto createProduct(CreateProductVo data) {
-        // TODO: feign 응답값을 Optional로 받아야하는지
         final ProfileResDto profile = memberClient.getProfile(data.sellerId());
         if (profile == null) {
             throw new ProductException(ProductExceptionCode.USER_NOT_FOUND);
         }
 
         final Product product = productRepository.save(Product.getInstance(data, profile.name()));
-        return CreateProductResDto.getInstance(product.getName(), product.getPrice(), product.getStock());
+        return productMapper.toCreateProductResDto(product);
     }
 
     public List<ProductResDto> getProducts(final List<Long> ids) {
@@ -47,8 +49,10 @@ public class ProductService {
     public ProductDetailResDto getProduct(final Long productId) {
         return productRepository.findById(productId)
                 .map(p -> {
-                    final List<ProductImage> images = productImageRepository.findAllByProductIdOrderByDisplayOrder(productId);
-                    return ProductDetailResDto.getInstance(p, images);
+                    final List<String> images = productImageRepository.findAllByProductIdOrderByDisplayOrder(productId).stream()
+                            .map(ProductImage::getUrl)
+                            .toList();
+                    return productMapper.toProductDetailResDto(p, images);
                 })
                 .orElseThrow(() -> new ProductException(ProductExceptionCode.UNAUTHORIZED));
     }
