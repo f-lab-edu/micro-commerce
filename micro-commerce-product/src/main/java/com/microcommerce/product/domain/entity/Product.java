@@ -36,6 +36,7 @@ public class Product extends BaseEntity {
     @Column
     private String description;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column
     private ProductStatus status;
