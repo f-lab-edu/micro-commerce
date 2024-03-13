@@ -30,9 +30,12 @@ public class StockService {
     }
 
     @Transactional
-    public SetStockResDto setStock(Long productId, Integer quantity) {
+    public SetStockResDto setStock(Long userId, Long productId, Integer quantity) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductException(ProductExceptionCode.INTERNAL_REQUEST_ERROR));
+        if (!product.getSellerId().equals(userId)) {
+            throw new ProductException(ProductExceptionCode.FORBIDDEN);
+        }
 
         product.setStock(quantity);
         return new SetStockResDto(true);
