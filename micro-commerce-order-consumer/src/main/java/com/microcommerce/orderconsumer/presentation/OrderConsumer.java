@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -24,16 +25,18 @@ public class OrderConsumer {
     private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = KafkaTopic.ORDER, groupId = "order-service")
-    public void order(final ConsumerRecord<String, String> record){
+    public void order(final ConsumerRecord<String, String> record, final Acknowledgment acknowledgment){
         final OrderRecord order;
         try {
             order = objectMapper.readValue(record.value(), OrderRecord.class);
+            orderService.order(orderMapper.OrderRecordToVo(order));
         } catch (JsonProcessingException e) {
             log.error("recode parsing error: {}", e.getMessage());
-            return;
+        } catch (Exception e) {
+            log.error("unknown error: {}", e.getMessage());
+        } finally {
+            acknowledgment.acknowledge();
         }
-
-        orderService.order(orderMapper.OrderRecordToVo(order));
     }
 
 }

@@ -23,7 +23,7 @@ public class OrderDetail extends BaseEntity {
     private Long productId;
 
     @Column(nullable = false)
-    private String productImage;
+    private String productRepresentativeImage;
 
     @Column(nullable = false)
     private String productName;
@@ -43,13 +43,6 @@ public class OrderDetail extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderDetailStatus status;
-
-    public void setProductInfo(String productName, String productImage, Long price, String sellerName) {
-        this.productName = productName;
-        this.productImage = productImage;
-        this.price = price;
-        this.sellerName = sellerName;
-    }
+    private OrderDetailStatus status = OrderDetailStatus.ORDER_PROCESSING;
 
 }
