@@ -32,17 +32,24 @@ public class ProductService {
 
     private final ProductMapper productMapper;
 
-    public CreateProductResDto createProduct(CreateProductVo data) {
+    public CreateProductResDto createProduct(final CreateProductVo data) {
         final ProfileResDto profile = memberClient.getProfile(data.sellerId());
         if (profile == null) {
             throw new ProductException(ProductExceptionCode.USER_NOT_FOUND);
         }
 
-        final Product product = productRepository.save(Product.getInstance(data, profile.name()));
+        final Product product = productRepository.save(productMapper.toProduct(data, profile.name()));
         return productMapper.toCreateProductResDto(product);
     }
 
-    public List<ProductResDto> getProducts(final List<Long> ids) {
+    public List<ProductResDto> getProducts() {
+        return productRepository.findAll().stream().map(p -> {
+            final ProductImage representativeImage = productImageRepository.findFirstByProductIdOrderByDisplayOrder(p.getId());
+            return productMapper.toProductResDto(p, representativeImage.getUrl());
+        }).toList();
+    }
+
+    public List<ProductResDto> getProductsByIds(final List<Long> ids) {
         return productRepository.getProducts(ids);
     }
 

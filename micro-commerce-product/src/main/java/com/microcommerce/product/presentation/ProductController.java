@@ -32,13 +32,12 @@ public class ProductController {
         return productService.createProduct(productMapper.toCreateProductVo(req));
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    // TODO: 페이징 처리
     @GetMapping("/public-api/v1/products")
-    public List<ProductResDto> getProducts(@RequestParam(name = "ids", required = false) final List<Long> ids) {
-        return productService.getProducts(ids);
+    public List<ProductResDto> getProducts() {
+        return productService.getProducts();
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/public-api/v1/products/{productId}")
     public ProductDetailResDto getProduct(@PathVariable final Long productId) {
         return productService.getProduct(productId);

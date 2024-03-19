@@ -1,7 +1,6 @@
 package com.microcommerce.product.domain.entity;
 
 import com.microcommerce.product.domain.enums.ProductStatus;
-import com.microcommerce.product.domain.vo.CreateProductVo;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,23 +43,5 @@ public class Product extends BaseEntity {
     @Setter
     @Column
     private Integer stock;
-
-    public static Product getInstance(CreateProductVo data, String sellerName) {
-        return Product.builder()
-                .sellerId(data.sellerId())
-                .sellerName(sellerName)
-                .name(data.name())
-                .price(data.price())
-                .category(data.category())
-                .description(data.description())
-                .status(ProductStatus.AVAILABLE)
-                .stock(data.stock())
-                .build();
-
-    }
-
-    public void decreaseStock(int quantity) {
-        this.stock = this.stock - quantity;
-    }
 
 }

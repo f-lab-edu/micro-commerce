@@ -22,7 +22,8 @@ public class ProductRepositoryImpl implements ProductCustomRepository {
                                 product.id.as("id"),
                                 product.name.as("name"),
                                 product.price.as("price"),
-                                productImage.url.as("imageUrl"),
+                                productImage.url.as("representativeImageUrl"),
+                                product.sellerId.as("sellerId"),
                                 product.sellerName.as("sellerName")
                         )
                 )

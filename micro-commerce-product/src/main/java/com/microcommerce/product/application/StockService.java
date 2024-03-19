@@ -1,8 +1,6 @@
 package com.microcommerce.product.application;
 
-import com.microcommerce.product.domain.dto.res.DecreaseStockResDto;
 import com.microcommerce.product.domain.dto.res.SetStockResDto;
-import com.microcommerce.product.domain.entity.Product;
 import com.microcommerce.product.domain.enums.ProductStatus;
 import com.microcommerce.product.exception.ProductException;
 import com.microcommerce.product.exception.ProductExceptionCode;
@@ -18,33 +16,35 @@ public class StockService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public DecreaseStockResDto decreaseStock(final Long productId, final Integer quantity) {
-        final Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductException(ProductExceptionCode.INTERNAL_REQUEST_ERROR));
-
-        if (product.getStock() < quantity) {
-            product.setStatus(ProductStatus.SOLD_OUT);
-            throw new ProductException(ProductExceptionCode.EXCEED_STOCK);
-        }
-
-        product.decreaseStock(quantity);
-        return new DecreaseStockResDto(true);
+    public String decreaseStock(final Long productId, final Integer quantity) {
+        return productRepository.findById(productId)
+                .map(p -> {
+                    if (p.getStock() < quantity) {
+                        throw new ProductException(ProductExceptionCode.INSUFFICIENT_STOCK);
+                    }
+                    p.setStock(p.getStock() - quantity);
+                    if (p.getStock().equals(0)) {
+                        p.setStatus(ProductStatus.SOLD_OUT);
+                    }
+                    return "SUCCESS";
+                })
+                .orElseThrow(() -> new ProductException(ProductExceptionCode.PRODUCT_NOT_FOUND));
     }
 
     @Transactional
     public SetStockResDto setStock(final Long userId, final Long productId, final Integer quantity) {
-        final Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductException(ProductExceptionCode.INTERNAL_REQUEST_ERROR));
-        if (!product.getSellerId().equals(userId)) {
-            throw new ProductException(ProductExceptionCode.FORBIDDEN);
-        }
-
-        product.setStock(quantity);
-        if (product.getStatus().equals(ProductStatus.SOLD_OUT)) {
-            product.setStatus(ProductStatus.AVAILABLE);
-        }
-
-        return new SetStockResDto(true);
+        return productRepository.findById(productId)
+                .map(p -> {
+                    if (!userId.equals(p.getSellerId())) {
+                        throw new ProductException(ProductExceptionCode.FORBIDDEN);
+                    }
+                    p.setStock(quantity);
+                    if (p.getStatus().equals(ProductStatus.SOLD_OUT)) {
+                        p.setStatus(ProductStatus.AVAILABLE);
+                    }
+                    return new SetStockResDto(true);
+                })
+                .orElseThrow(() -> new ProductException(ProductExceptionCode.PRODUCT_NOT_FOUND));
     }
 
 }
