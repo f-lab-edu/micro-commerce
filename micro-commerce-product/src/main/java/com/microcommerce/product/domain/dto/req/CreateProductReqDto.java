@@ -1,11 +1,14 @@
 package com.microcommerce.product.domain.dto.req;
 
+import java.util.List;
+
 public record CreateProductReqDto(
         Long sellerId,
         String name,
-        Long price,
+        Integer price,
         String category,
         String description,
-        Long stock
+        Integer stock,
+        List<String> imageUrls
 ) {
 }
