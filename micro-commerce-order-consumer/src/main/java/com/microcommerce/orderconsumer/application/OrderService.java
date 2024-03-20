@@ -83,7 +83,7 @@ public class OrderService {
         }
 
         // 주문 금액 차감 API
-        final ResponseEntity<String> payRes = paymentClient.pay(new PaymentReqDto(vo.userId(), totalOrderPrice, vo.txId()));
+        final ResponseEntity<String> payRes = paymentClient.pay(vo.userId(), new PaymentReqDto(vo.userId(), totalOrderPrice, vo.txId()));
         // 주문 금액 요청이 실패했을 경우
         if (!payRes.getStatusCode().is2xxSuccessful() || payRes.getBody() == null) {
             orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.SYSTEM_ERROR));
