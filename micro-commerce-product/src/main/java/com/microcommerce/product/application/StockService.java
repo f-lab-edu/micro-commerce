@@ -39,8 +39,10 @@ public class StockService {
                         throw new ProductException(ProductExceptionCode.FORBIDDEN);
                     }
                     p.setStock(quantity);
-                    if (p.getStatus().equals(ProductStatus.SOLD_OUT)) {
+                    if (p.getStatus() == ProductStatus.SOLD_OUT && quantity > 0) {
                         p.setStatus(ProductStatus.AVAILABLE);
+                    } else if (quantity == 0) {
+                        p.setStatus(ProductStatus.SOLD_OUT);
                     }
                     return new SetStockResDto(true);
                 })
