@@ -1,5 +1,6 @@
 package com.microcommerce.product.application;
 
+import com.microcommerce.product.domain.dao.MemberClientDao;
 import com.microcommerce.product.domain.dto.feign.res.ProfileResDto;
 import com.microcommerce.product.domain.dto.res.CreateProductResDto;
 import com.microcommerce.product.domain.dto.res.ProductDetailResDto;
@@ -9,7 +10,6 @@ import com.microcommerce.product.domain.entity.ProductImage;
 import com.microcommerce.product.domain.vo.CreateProductVo;
 import com.microcommerce.product.exception.ProductException;
 import com.microcommerce.product.exception.ProductExceptionCode;
-import com.microcommerce.product.infrastructure.feign.MemberClient;
 import com.microcommerce.product.infrastructure.repository.ProductImageRepository;
 import com.microcommerce.product.infrastructure.repository.ProductRepository;
 import com.microcommerce.product.mapper.ProductMapper;
@@ -28,16 +28,12 @@ public class ProductService {
 
     private final ProductImageRepository productImageRepository;
 
-    private final MemberClient memberClient;
+    private final MemberClientDao memberClientDao;
 
     private final ProductMapper productMapper;
 
     public CreateProductResDto createProduct(final CreateProductVo data) {
-        final ProfileResDto profile = memberClient.getProfile(data.sellerId());
-        if (profile == null) {
-            throw new ProductException(ProductExceptionCode.USER_NOT_FOUND);
-        }
-
+        final ProfileResDto profile = memberClientDao.getProfile(data.sellerId());
         final Product product = productRepository.save(productMapper.toProduct(data, profile.name()));
         return productMapper.toCreateProductResDto(product);
     }

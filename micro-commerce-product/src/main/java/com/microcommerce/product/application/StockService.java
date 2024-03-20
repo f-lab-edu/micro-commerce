@@ -23,7 +23,7 @@ public class StockService {
                         throw new ProductException(ProductExceptionCode.INSUFFICIENT_STOCK);
                     }
                     p.setStock(p.getStock() - quantity);
-                    if (p.getStock().equals(0)) {
+                    if (p.getStock() == 0) {
                         p.setStatus(ProductStatus.SOLD_OUT);
                     }
                     return "SUCCESS";
