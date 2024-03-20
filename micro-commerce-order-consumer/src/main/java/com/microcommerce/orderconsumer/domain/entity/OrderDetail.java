@@ -1,11 +1,10 @@
 package com.microcommerce.orderconsumer.domain.entity;
 
+import com.microcommerce.orderconsumer.domain.enums.OrderDetailStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@ToString
 @Getter
 @Builder
 @AllArgsConstructor
@@ -17,6 +16,7 @@ public class OrderDetail extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private Long orderId;
 
@@ -24,7 +24,7 @@ public class OrderDetail extends BaseEntity {
     private Long productId;
 
     @Column(nullable = false)
-    private String productImage;
+    private String productRepresentativeImage;
 
     @Column(nullable = false)
     private String productName;
@@ -33,12 +33,17 @@ public class OrderDetail extends BaseEntity {
     private Long price;
 
     @Column(nullable = false)
-    private Long quantity;
+    private Integer quantity;
 
     @Column(nullable = false)
     private Long sellerId;
 
     @Column(nullable = false)
     private String sellerName;
+
+    @Setter
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderDetailStatus status;
 
 }

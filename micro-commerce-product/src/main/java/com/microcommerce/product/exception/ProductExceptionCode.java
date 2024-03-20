@@ -26,6 +26,21 @@ public enum ProductExceptionCode {
     INTERNAL_REQUEST_ERROR(
             HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_REQUEST_ERROR",
             "내부 서비스 호출 시 오휴"
+    ),
+
+    PRODUCT_NOT_FOUND(
+            HttpStatus.NOT_FOUND, "PRODUCT_NOT_FOUND",
+            "상품을 찾을 수 없을 경우"
+    ),
+
+    INSUFFICIENT_STOCK(
+            HttpStatus.OK, "INSUFFICIENT_STOCK",
+            "재고가 부족한 경우"
+    ),
+
+    EXCEED_STOCK(
+            HttpStatus.OK, "EXCEED_STOCK",
+            "내부 서비스 호출 시 오휴"
     );
 
     private final HttpStatus status;

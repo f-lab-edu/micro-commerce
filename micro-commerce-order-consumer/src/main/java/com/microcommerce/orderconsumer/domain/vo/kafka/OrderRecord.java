@@ -4,7 +4,8 @@ import com.microcommerce.orderconsumer.domain.enums.PaymentMethod;
 
 import java.util.List;
 
-public record OrderRecord(Long userId,
+public record OrderRecord(String txId,
+                          Long userId,
                           String address,
                           String zipcode,
                           PaymentMethod paymentMethod,

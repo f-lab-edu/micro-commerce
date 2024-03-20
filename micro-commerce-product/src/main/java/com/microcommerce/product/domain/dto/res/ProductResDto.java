@@ -6,7 +6,8 @@ import lombok.Getter;
 public class ProductResDto {
     Long id;
     String name;
-    Long price;
-    String imageUrl;
+    Integer price;
+    public String representativeImageUrl;
+    Long sellerId;
     String sellerName;
 }

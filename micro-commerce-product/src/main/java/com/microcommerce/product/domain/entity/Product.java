@@ -1,14 +1,8 @@
 package com.microcommerce.product.domain.entity;
 
 import com.microcommerce.product.domain.enums.ProductStatus;
-import com.microcommerce.product.domain.vo.CreateProductVo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Builder
@@ -31,7 +25,7 @@ public class Product extends BaseEntity {
     private String name;
 
     @Column
-    private Long price;
+    private Integer price;
 
     // FIXME: 임시 String
     @Column
@@ -41,25 +35,13 @@ public class Product extends BaseEntity {
     @Column
     private String description;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column
     private ProductStatus status;
 
+    @Setter
     @Column
-    private Long stock;
-
-    public static Product getInstance(CreateProductVo data, String sellerName) {
-        return Product.builder()
-                .sellerId(data.sellerId())
-                .sellerName(sellerName)
-                .name(data.name())
-                .price(data.price())
-                .category(data.category())
-                .description(data.description())
-                .status(ProductStatus.AVAILABLE)
-                .stock(data.stock())
-                .build();
-
-    }
+    private Integer stock;
 
 }
