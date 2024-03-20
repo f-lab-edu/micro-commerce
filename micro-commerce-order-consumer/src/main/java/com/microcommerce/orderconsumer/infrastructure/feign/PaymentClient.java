@@ -5,11 +5,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "micro-commerce-payment")
 public interface PaymentClient {
 
-    @PostMapping(value = "/internal-api/v1/payment")
-    ResponseEntity<String> pay(@RequestBody PaymentReqDto req);
+    @PostMapping(value = "/api/v1/payments")
+    ResponseEntity<String> pay(@RequestHeader("x-user-id") Long userId, @RequestBody PaymentReqDto req);
 
 }
