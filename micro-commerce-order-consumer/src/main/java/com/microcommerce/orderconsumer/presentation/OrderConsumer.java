@@ -33,6 +33,7 @@ public class OrderConsumer {
         } catch (JsonProcessingException e) {
             log.error("recode parsing error: {}", e.getMessage());
         } catch (Exception e) {
+            log.error(e.toString());
             log.error("unknown error: {}", e.getMessage());
         } finally {
             acknowledgment.acknowledge();

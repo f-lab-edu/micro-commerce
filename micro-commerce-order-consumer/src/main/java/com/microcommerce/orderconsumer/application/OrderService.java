@@ -49,17 +49,34 @@ public class OrderService {
                 .stream()
                 .collect(Collectors.toMap(ProductResDto::id, p -> p));
 
+        long totalOrderPrice = 0;
+        for (OrderDetailVo od : vo.products()) {
+            totalOrderPrice += od.quantity() * products.get(od.productId()).price();
+        }
+
+        ResponseEntity<Integer> balanceRes = paymentClient.getUserBalance(vo.userId());
+        // 재고 차감 API 실패 시 처리
+        if (!balanceRes.getStatusCode().is2xxSuccessful() || balanceRes.getBody() == null) {
+            return;
+        }
+        if (totalOrderPrice > balanceRes.getBody()) {
+            return;
+        }
+
         // 주문 기본 정보 저장
         final OrderBasic order = orderRepository.save(orderMapper.orderVoToEntity(vo));
 
         // 주문이 들어온 각 상품을 상세 주문으로 만들어 리스트에 저장
         final List<OrderDetail> orderDetails = vo.products().stream()
-                .map(orderDetailVo -> orderMapper.orderDetailVoToEntity(
-                        orderDetailVo, products.get(orderDetailVo.productId()), order.getId())
+                .map(orderDetailVo -> {
+                            final ProductResDto productRes = products.get(orderDetailVo.productId());
+                            return orderMapper.orderDetailVoToEntity(
+                                    orderDetailVo, productRes, order.getId(), productRes.price() * orderDetailVo.quantity());
+                        }
                 )
                 .toList();
 
-        Long totalOrderPrice = 0L;
+        Long paymentPrice = 0L;
         for (OrderDetail od : orderDetails) {
             // 상품 서비스에서 재고 차감 API 호출
             final ResponseEntity<String> decStockRes = productClient.decreaseStock(
@@ -79,18 +96,25 @@ public class OrderService {
             }
 
             // 재고 성공적으로 차감된 상품만 주문 처리
-            totalOrderPrice += od.getPrice();
+            paymentPrice += od.getPrice();
+            od.setStatus(OrderDetailStatus.ORDER_COMPLETE);
         }
 
         // 주문 금액 차감 API
-        final ResponseEntity<String> payRes = paymentClient.pay(vo.userId(), new PaymentReqDto(vo.userId(), totalOrderPrice, vo.txId()));
+        final ResponseEntity<String> payRes = paymentClient.pay(
+                vo.userId(),
+                new PaymentReqDto(vo.userId(), paymentPrice * -1, "PAYMENT", vo.txId())
+        );
+
         // 주문 금액 요청이 실패했을 경우
-        if (!payRes.getStatusCode().is2xxSuccessful() || payRes.getBody() == null) {
-            orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.SYSTEM_ERROR));
-        }
-        // 주문 금액이 부족한 경우
-        else if ("INSUFFICIENT_POINT".equals(payRes.getBody())) {
-            orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.INSUFFICIENT_POINT));
+        if (!payRes.getStatusCode().is2xxSuccessful()) {
+            log.error(payRes.toString());
+            // 주문 금액이 부족한 경우
+            if ("INSUFFICIENT_BALANCE".equals(payRes.getBody())) {
+                orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.INSUFFICIENT_BALANCE));
+            } else {
+                orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.SYSTEM_ERROR));
+            }
         }
 
         // 상세 주문 저장

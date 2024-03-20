@@ -19,11 +19,11 @@ public interface OrderMapper {
     @Mapping(source = "orderDetailVo.productId", target = "productId")
     @Mapping(source = "productResDto.representativeImageUrl", target = "productRepresentativeImage")
     @Mapping(source = "productResDto.name", target = "productName")
-    @Mapping(source = "productResDto.price", target = "price")
+    @Mapping(source = "orderPrice", target = "price")
     @Mapping(source = "orderDetailVo.quantity", target = "quantity")
     @Mapping(source = "productResDto.sellerId", target = "sellerId")
     @Mapping(source = "productResDto.sellerName", target = "sellerName")
-    OrderDetail orderDetailVoToEntity(OrderDetailVo orderDetailVo, ProductResDto productResDto, Long orderId);
+    OrderDetail orderDetailVoToEntity(OrderDetailVo orderDetailVo, ProductResDto productResDto, Long orderId, Long orderPrice);
 
     OrderVo OrderRecordToVo(OrderRecord vo);
 }

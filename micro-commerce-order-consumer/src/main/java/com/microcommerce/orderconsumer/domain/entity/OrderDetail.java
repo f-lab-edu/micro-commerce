@@ -4,6 +4,7 @@ import com.microcommerce.orderconsumer.domain.enums.OrderDetailStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+@ToString
 @Getter
 @Builder
 @AllArgsConstructor
@@ -43,6 +44,6 @@ public class OrderDetail extends BaseEntity {
     @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private OrderDetailStatus status = OrderDetailStatus.ORDER_PROCESSING;
+    private OrderDetailStatus status;
 
 }

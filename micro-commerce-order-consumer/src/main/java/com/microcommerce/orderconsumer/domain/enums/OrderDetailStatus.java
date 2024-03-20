@@ -13,7 +13,7 @@ public enum OrderDetailStatus {
     EXCHANGE_COMPLETED, // 교환 완료
     ORDER_CANCELED, // 주문 취소(사용자가 취소)
     ORDER_REJECTED, // 주문 반려(판매자가 취소)
-    INSUFFICIENT_POINT, // 결제 금액 부족
+    INSUFFICIENT_BALANCE, // 결제 금액 부족
     INSUFFICIENT_STOCK,   // 재고 부족
     SYSTEM_ERROR    // 시스템 오류
 

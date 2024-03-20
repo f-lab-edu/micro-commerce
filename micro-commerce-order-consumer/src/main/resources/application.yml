@@ -24,6 +24,8 @@ spring:
       bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
 
 eureka:
   instance:
