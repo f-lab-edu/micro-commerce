@@ -110,6 +110,14 @@ services:
     networks:
       - micro-commerce-network
     depends_on:
+      zookeeper:
+        condition: service_started
+      kafka-1:
+        condition: service_started
+      kafka-2:
+        condition: service_started
+      kafka-3:
+        condition: service_started
       service-discovery:
         condition: service_started
       api-gateway:
