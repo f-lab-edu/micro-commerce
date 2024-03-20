@@ -17,7 +17,7 @@ spring:
         show_sql: true
         format_sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
 eureka:
   instance:

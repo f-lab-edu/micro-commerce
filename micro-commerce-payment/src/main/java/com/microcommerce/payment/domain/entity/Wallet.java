@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name = "WALLET")
 @Entity
-public class Wallet extends BaseEntity {
+public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
