@@ -70,6 +70,21 @@ services:
       api-gateway:
         condition: service_started
 
+  payment-service:
+    container_name: micro-commerce-payment
+    build:
+      context: ./micro-commerce-payment
+      dockerfile: Dockerfile
+    environment:
+      USE_PROFILE: dev
+    networks:
+      - micro-commerce-network
+    depends_on:
+      service-discovery:
+        condition: service_started
+      api-gateway:
+        condition: service_started
+
   product-service:
     container_name: micro-commerce-product
     build:

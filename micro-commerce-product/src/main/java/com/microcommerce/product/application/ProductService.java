@@ -17,7 +17,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,6 +37,13 @@ public class ProductService {
     public CreateProductResDto createProduct(final CreateProductVo data) {
         final ProfileResDto profile = memberClientDao.getProfile(data.sellerId());
         final Product product = productRepository.save(productMapper.toProduct(data, profile.name()));
+
+        final List<ProductImage> images = new ArrayList<>();
+        for (int i = 0; i < data.imageUrls().size(); i++) {
+            images.add(productMapper.toProductImage(product.getId(), data.imageUrls().get(i), i + 1));
+        }
+        productImageRepository.saveAll(images);
+
         return productMapper.toCreateProductResDto(product);
     }
 

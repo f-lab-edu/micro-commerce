@@ -5,6 +5,7 @@ import com.microcommerce.product.domain.dto.res.CreateProductResDto;
 import com.microcommerce.product.domain.dto.res.ProductDetailResDto;
 import com.microcommerce.product.domain.dto.res.ProductResDto;
 import com.microcommerce.product.domain.entity.Product;
+import com.microcommerce.product.domain.entity.ProductImage;
 import com.microcommerce.product.domain.vo.CreateProductVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -25,6 +26,11 @@ public interface ProductMapper {
     @Mapping(source = "imageUrl", target = "representativeImageUrl")
     ProductResDto toProductResDto(Product product, String imageUrl);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "status", ignore = true)
     Product toProduct(CreateProductVo data, String sellerName);
+
+    @Mapping(target = "id", ignore = true)
+    ProductImage toProductImage(Long productId, String url, int displayOrder);
 
 }
