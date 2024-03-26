@@ -23,7 +23,7 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/v1/orders")
-    void order(@RequestBody OrderReqDto req) {
+    public void order(@RequestBody OrderReqDto req) {
         if (req.products() == null || req.products().isEmpty()) {
             throw new OrderException(OrderExceptionCode.BAD_REQUEST);
         }
