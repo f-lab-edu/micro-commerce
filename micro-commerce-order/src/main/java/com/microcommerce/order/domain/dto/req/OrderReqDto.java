@@ -9,6 +9,7 @@ public record OrderReqDto(
         String address,
         String zipcode,
         PaymentMethod paymentMethod,
-        List<OrderDetailReqDto> products
+        List<OrderDetailReqDto> products,
+        Long totalOrderPrice
 ) {
 }
