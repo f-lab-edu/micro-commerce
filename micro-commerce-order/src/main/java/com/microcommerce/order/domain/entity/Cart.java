@@ -1,10 +1,7 @@
 package com.microcommerce.order.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -23,6 +20,7 @@ public class Cart extends BaseEntity {
     @Column(nullable = false)
     private Long productId;
 
+    @Setter
     @Column(nullable = false)
     private Integer quantity;
 

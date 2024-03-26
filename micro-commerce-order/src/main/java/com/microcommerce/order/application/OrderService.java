@@ -8,7 +8,6 @@ import com.microcommerce.order.domain.vo.OrderVo;
 import com.microcommerce.order.domain.vo.kafka.OrderRecord;
 import com.microcommerce.order.exception.OrderException;
 import com.microcommerce.order.exception.OrderExceptionCode;
-import com.microcommerce.order.infrastructure.feign.PaymentClient;
 import com.microcommerce.order.infrastructure.kafka.KafkaProducer;
 import com.microcommerce.order.infrastructure.kafka.KafkaTopic;
 import com.microcommerce.order.mapper.OrderMapper;

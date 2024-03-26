@@ -41,6 +41,11 @@ public enum OrderExceptionCode {
     PRODUCT_NOT_FOUND(
             HttpStatus.BAD_REQUEST, "PRODUCT_NOT_FOUND",
             "상품 정보를 찾을 수 없음"
+    ),
+
+    CART_PRODUCT_NOT_FOUND(
+            HttpStatus.BAD_REQUEST, "CART_PRODUCT_NOT_FOUND",
+            "장바구니 정보를 찾을 수 없음"
     );
 
     private final HttpStatus status;

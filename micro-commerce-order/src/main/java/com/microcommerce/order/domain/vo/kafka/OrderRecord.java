@@ -1,7 +1,6 @@
 package com.microcommerce.order.domain.vo.kafka;
 
 import com.microcommerce.order.domain.enums.PaymentMethod;
-import com.microcommerce.order.domain.vo.OrderVo;
 
 import java.util.List;
 

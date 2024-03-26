@@ -2,7 +2,6 @@ package com.microcommerce.order.presentation;
 
 import com.microcommerce.order.application.OrderService;
 import com.microcommerce.order.domain.dto.req.OrderReqDto;
-import com.microcommerce.order.domain.vo.OrderVo;
 import com.microcommerce.order.exception.OrderException;
 import com.microcommerce.order.exception.OrderExceptionCode;
 import com.microcommerce.order.mapper.OrderMapper;

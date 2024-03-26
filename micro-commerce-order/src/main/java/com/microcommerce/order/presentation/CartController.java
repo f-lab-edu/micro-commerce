@@ -32,4 +32,19 @@ public class CartController {
         return cartService.getAllCartProducts(userId);
     }
 
+    @PostMapping("/api/v1/orders/carts/{cartId}/quantity")
+    public void updateCartProductQuantity(@RequestHeader final HttpHeaders header,
+                                          @PathVariable final Long cartId,
+                                          @RequestBody final Integer quantity) {
+        final Long userId = HeaderUtil.getHeaderUserId(header);
+        cartService.updateCartProductQuantity(userId, cartId, quantity);
+    }
+
+    @DeleteMapping("/api/v1/orders/carts/{cartId}")
+    public void deleteCartProduct(@RequestHeader final HttpHeaders header,
+                                  @PathVariable final Long cartId) {
+        final Long userId = HeaderUtil.getHeaderUserId(header);
+        cartService.deleteCartProduct(userId, cartId);
+    }
+
 }
