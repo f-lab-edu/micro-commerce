@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "micro-commerce-payment", fallbackFactory = PaymentClientFallbackFactory.class)
 public interface PaymentClient {
 
-    @PostMapping(value = "/api/v1/payments")
+    @PostMapping(value = "/internal-api/v1/payments")
     ResponseEntity<String> pay(@RequestHeader("x-user-id") Long userId, @RequestBody PaymentReqDto req);
 
-    @GetMapping(value = "/api/v1/payments/balance")
+    @GetMapping(value = "/internal-api/v1/payments/balance")
     ResponseEntity<Integer> getUserBalance(@RequestHeader("x-user-id") @RequestParam("user") Long userId);
 
 }

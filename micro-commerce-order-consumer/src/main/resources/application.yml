@@ -27,6 +27,11 @@ spring:
     consumer:
       bootstrap-servers: kafka-1:9092, kafka-2:9092, kafka-3:9092
 
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
 eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}

@@ -2,12 +2,12 @@ package com.microcommerce.orderconsumer.application;
 
 import com.microcommerce.orderconsumer.domain.dto.feign.req.DecreaseStockReqDto;
 import com.microcommerce.orderconsumer.domain.dto.feign.req.PaymentReqDto;
-import com.microcommerce.orderconsumer.domain.dto.feign.res.ProductResDto;
 import com.microcommerce.orderconsumer.domain.entity.OrderBasic;
 import com.microcommerce.orderconsumer.domain.entity.OrderDetail;
 import com.microcommerce.orderconsumer.domain.enums.OrderDetailStatus;
-import com.microcommerce.orderconsumer.domain.vo.OrderDetailVo;
 import com.microcommerce.orderconsumer.domain.vo.OrderVo;
+import com.microcommerce.orderconsumer.exception.OrderException;
+import com.microcommerce.orderconsumer.exception.OrderExceptionCode;
 import com.microcommerce.orderconsumer.infrastructure.feign.PaymentClient;
 import com.microcommerce.orderconsumer.infrastructure.feign.ProductClient;
 import com.microcommerce.orderconsumer.infrastructure.repository.OrderDetailRepository;
@@ -18,9 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,21 +37,16 @@ public class OrderService {
     private final OrderMapper orderMapper;
 
     public void order(final OrderVo vo) {
-        // 주문 들어온 상품의 정보를 상품 서비스로 받아와서 Map 형태로 저장해둠
-        final ResponseEntity<List<ProductResDto>> productInfoRes = productClient.getProducts(
-                vo.products().stream().map(OrderDetailVo::productId).toList()
-        );
-        if (!productInfoRes.getStatusCode().is2xxSuccessful() || productInfoRes.getBody() == null) {
-            return;
+        // 같은 사용자가 3초 동안 두번 이상의 주문을 넣으면 거절
+        if (orderRepository.existsByBuyerIdAndCreatedAtAfter(vo.userId(), LocalDateTime.now().minusSeconds(3))) {
+            // TODO: 알람
+            throw new OrderException(OrderExceptionCode.TOO_MANY_ORDER);
         }
-        final Map<Long, ProductResDto> products = productInfoRes.getBody()
-                .stream()
-                .collect(Collectors.toMap(ProductResDto::id, p -> p));
 
-        long totalOrderPrice = 0;
-        for (OrderDetailVo od : vo.products()) {
-            totalOrderPrice += od.quantity() * products.get(od.productId()).price();
-        }
+        int totalOrderPrice = vo.products()
+                .stream()
+                .mapToInt(p -> p.quantity() * p.productPrice())
+                .sum();
 
         ResponseEntity<Integer> balanceRes = paymentClient.getUserBalance(vo.userId());
         // 재고 차감 API 실패 시 처리
@@ -68,16 +62,11 @@ public class OrderService {
 
         // 주문이 들어온 각 상품을 상세 주문으로 만들어 리스트에 저장
         final List<OrderDetail> orderDetails = vo.products().stream()
-                .map(orderDetailVo -> {
-                            final ProductResDto productRes = products.get(orderDetailVo.productId());
-                            return orderMapper.orderDetailVoToEntity(
-                                    orderDetailVo, productRes, order.getId(), productRes.price() * orderDetailVo.quantity());
-                        }
-                )
+                .map(p -> orderMapper.orderDetailVoToEntity(p, order.getId(), p.productPrice() * p.quantity()))
                 .toList();
 
         Long paymentPrice = 0L;
-        for (OrderDetail od : orderDetails) {
+        for (final OrderDetail od : orderDetails) {
             // 상품 서비스에서 재고 차감 API 호출
             final ResponseEntity<String> decStockRes = productClient.decreaseStock(
                     od.getProductId(), new DecreaseStockReqDto(vo.txId(), od.getQuantity())
