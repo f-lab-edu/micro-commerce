@@ -1,13 +1,10 @@
 package com.microcommerce.orderconsumer.domain.entity;
 
-import com.microcommerce.orderconsumer.domain.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -31,11 +28,5 @@ public class OrderBasic extends BaseEntity {
 
     @Column
     private String invoiceNumber;
-
-    @Column
-    private PaymentMethod paymentMethod;
-
-    @Column
-    private LocalDateTime paymentAt;
 
 }
