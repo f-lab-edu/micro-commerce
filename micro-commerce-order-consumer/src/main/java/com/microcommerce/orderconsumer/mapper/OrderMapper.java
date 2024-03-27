@@ -1,6 +1,5 @@
 package com.microcommerce.orderconsumer.mapper;
 
-import com.microcommerce.orderconsumer.domain.dto.feign.res.ProductResDto;
 import com.microcommerce.orderconsumer.domain.entity.OrderBasic;
 import com.microcommerce.orderconsumer.domain.entity.OrderDetail;
 import com.microcommerce.orderconsumer.domain.vo.OrderDetailVo;
@@ -16,14 +15,14 @@ public interface OrderMapper {
     OrderBasic orderVoToEntity(OrderVo orderVo);
 
     @Mapping(source = "orderId", target = "orderId")
-    @Mapping(source = "orderDetailVo.productId", target = "productId")
-    @Mapping(source = "productResDto.representativeImageUrl", target = "productRepresentativeImage")
-    @Mapping(source = "productResDto.name", target = "productName")
+    @Mapping(source = "vo.productId", target = "productId")
+    @Mapping(source = "vo.representativeImageUrl", target = "productRepresentativeImage")
+    @Mapping(source = "vo.productName", target = "productName")
     @Mapping(source = "orderPrice", target = "price")
-    @Mapping(source = "orderDetailVo.quantity", target = "quantity")
-    @Mapping(source = "productResDto.sellerId", target = "sellerId")
-    @Mapping(source = "productResDto.sellerName", target = "sellerName")
-    OrderDetail orderDetailVoToEntity(OrderDetailVo orderDetailVo, ProductResDto productResDto, Long orderId, Long orderPrice);
+    @Mapping(source = "vo.quantity", target = "quantity")
+    @Mapping(source = "vo.sellerId", target = "sellerId")
+    @Mapping(source = "vo.sellerName", target = "sellerName")
+    OrderDetail orderDetailVoToEntity(OrderDetailVo vo, Long orderId, Integer orderPrice);
 
     OrderVo OrderRecordToVo(OrderRecord vo);
 }

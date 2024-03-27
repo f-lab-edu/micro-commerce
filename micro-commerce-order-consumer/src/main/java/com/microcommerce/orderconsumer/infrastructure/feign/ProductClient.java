@@ -1,6 +1,5 @@
 package com.microcommerce.orderconsumer.infrastructure.feign;
 
-import com.microcommerce.orderconsumer.domain.dto.feign.req.DecreaseStockReqDto;
 import com.microcommerce.orderconsumer.domain.dto.feign.res.ProductResDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.context.annotation.Primary;
@@ -16,7 +15,7 @@ public interface ProductClient {
     @GetMapping(value = "/internal-api/v1/products")
     ResponseEntity<List<ProductResDto>> getProducts(@RequestParam("ids") List<Long> productId);
 
-    @PostMapping(value = "/internal-api/v1/products/{productId}/decrement-score")
-    ResponseEntity<String> decreaseStock(@PathVariable Long productId, @RequestBody DecreaseStockReqDto req);
+    @PostMapping(value = "/internal-api/v1/products/{productId}/stock")
+    ResponseEntity<String> changeStock(@PathVariable Long productId, @RequestBody int change);
 
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microcommerce.orderconsumer.application.OrderService;
 import com.microcommerce.orderconsumer.domain.constant.KafkaTopic;
 import com.microcommerce.orderconsumer.domain.vo.kafka.OrderRecord;
+import com.microcommerce.orderconsumer.exception.OrderException;
 import com.microcommerce.orderconsumer.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +26,18 @@ public class OrderConsumer {
     private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = KafkaTopic.ORDER, groupId = "order-service")
-    public void order(final ConsumerRecord<String, String> record, final Acknowledgment acknowledgment){
+    public void order(final ConsumerRecord<String, String> record, final Acknowledgment acknowledgment) {
         final OrderRecord order;
         try {
             order = objectMapper.readValue(record.value(), OrderRecord.class);
+            log.debug("consume message: {}", order.toString());
+
             orderService.order(orderMapper.OrderRecordToVo(order));
-        } catch (JsonProcessingException e) {
+        } catch (final JsonProcessingException e) {
             log.error("recode parsing error: {}", e.getMessage());
-        } catch (Exception e) {
-            log.error(e.toString());
+        } catch (final OrderException e) {
+            log.error("order error: {}", e.getMessage());
+        } catch (final Exception e) {
             log.error("unknown error: {}", e.getMessage());
         } finally {
             acknowledgment.acknowledge();
