@@ -1,6 +1,5 @@
 package com.microcommerce.orderconsumer.application;
 
-import com.microcommerce.orderconsumer.domain.dto.feign.req.DecreaseStockReqDto;
 import com.microcommerce.orderconsumer.domain.dto.feign.req.PaymentReqDto;
 import com.microcommerce.orderconsumer.domain.entity.OrderBasic;
 import com.microcommerce.orderconsumer.domain.entity.OrderDetail;
@@ -68,8 +67,8 @@ public class OrderService {
         Long paymentPrice = 0L;
         for (final OrderDetail od : orderDetails) {
             // 상품 서비스에서 재고 차감 API 호출
-            final ResponseEntity<String> decStockRes = productClient.decreaseStock(
-                    od.getProductId(), new DecreaseStockReqDto(vo.txId(), od.getQuantity())
+            final ResponseEntity<String> decStockRes = productClient.changeStock(
+                    od.getProductId(), od.getQuantity() * -1
             );
 
             // 재고 차감 API 실패 시 처리
@@ -95,10 +94,16 @@ public class OrderService {
                 new PaymentReqDto(vo.userId(), paymentPrice * -1, "PAYMENT", vo.txId())
         );
 
-        // 주문 금액 요청이 실패했을 경우
+        // 주문 금액 차감에 실패했을 경우
         if (!payRes.getStatusCode().is2xxSuccessful()) {
             log.error(payRes.toString());
-            // 주문 금액이 부족한 경우
+
+            // 이미 차감된 재고가 있는 상태에서 주문이 실패하면 차감한 재고를 다시 채워줌
+            orderDetails.stream()
+                    .filter(o -> o.getStatus() == OrderDetailStatus.ORDER_COMPLETE)
+                    .forEach(o -> productClient.changeStock(o.getProductId(), Math.abs(o.getQuantity())));
+
+            // 모든 상세 주문 실패 처리
             if ("INSUFFICIENT_BALANCE".equals(payRes.getBody())) {
                 orderDetails.forEach(od -> od.setStatus(OrderDetailStatus.INSUFFICIENT_BALANCE));
             } else {

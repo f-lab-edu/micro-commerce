@@ -1,6 +1,5 @@
 package com.microcommerce.orderconsumer.infrastructure.feign;
 
-import com.microcommerce.orderconsumer.domain.dto.feign.req.DecreaseStockReqDto;
 import com.microcommerce.orderconsumer.domain.dto.feign.res.ProductResDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ public class ProductClientFallback implements ProductClient {
     }
 
     @Override
-    public ResponseEntity<String> decreaseStock(Long productId, DecreaseStockReqDto req) {
+    public ResponseEntity<String> changeStock(Long productId, int change) {
         log.error("decreaseStock failed");
         return null;
     }
