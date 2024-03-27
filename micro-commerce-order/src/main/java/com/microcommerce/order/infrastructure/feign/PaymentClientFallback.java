@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class PaymentClientFallback implements PaymentClient{
+public class PaymentClientFallback implements PaymentClient {
     @Override
     public ResponseEntity<Integer> getUserBalance(Long userId) {
         log.error("getUserBalance failed");

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "micro-commerce-payment", fallbackFactory = PaymentClientFallbackFactory.class)
 public interface PaymentClient {
 
-    @GetMapping(value = "/api/v1/payments/balance")
+    @GetMapping(value = "/internal-api/v1/payments/balance")
     ResponseEntity<Integer> getUserBalance(@RequestHeader("x-user-id") @RequestParam("user") Long userId);
 
 }

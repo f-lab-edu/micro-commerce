@@ -32,16 +32,21 @@ public class OrderService {
     private final ProductClientDao productClientDao;
 
     public void order(final OrderVo vo) {
-        final int balance = paymentClientDao.getUserBalance(vo.userId());
-        if (balance < vo.totalOrderPrice()) {
-            throw new OrderException(OrderExceptionCode.INSUFFICIENT_BALANCE);
-        }
-
         final Map<Long, ProductResDto> productMap = productClientDao.getProductMapByIds(
                 vo.products().stream()
                         .map(OrderDetailVo::productId)
                         .toList()
         );
+
+        final int totalOrderInfo = vo.products()
+                .stream()
+                .mapToInt(p -> p.quantity() * productMap.get(p.productId()).price())
+                .sum();
+
+        final int balance = paymentClientDao.getUserBalance(vo.userId());
+        if (balance < totalOrderInfo) {
+            throw new OrderException(OrderExceptionCode.INSUFFICIENT_BALANCE);
+        }
 
         // 주문 상품 중 재고 부족인 상품이 있으면 전체 주문 취소
         vo.products().forEach(
@@ -52,9 +57,16 @@ public class OrderService {
                 }
         );
 
-        final String txId = UUID.randomUUID().toString();
-        final OrderRecord record = orderMapper.toOrderRecord(vo, txId);
-        kafkaProducer.send(KafkaTopic.ORDER, record);
+        final OrderRecord record = orderMapper.toOrderRecord(
+                vo,
+                UUID.randomUUID().toString(),
+                vo.products()
+                        .stream()
+                        .map(p -> orderMapper.toOrderDetailRecord(p, productMap.get(p.productId())))
+                        .toList()
+        );
+
+        kafkaProducer.send(KafkaTopic.ORDER, vo.userId().toString(), record);
     }
 
 }

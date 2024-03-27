@@ -14,7 +14,7 @@ public class PaymentClientFallbackFactory implements FallbackFactory<PaymentClie
 
     @Override
     public PaymentClient create(Throwable cause) {
-        log.info("error occurred, {}", cause.getMessage());
+        log.error("error occurred, {}", cause.getMessage());
         return paymentClientFallback;
     }
 }

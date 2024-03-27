@@ -26,7 +26,7 @@ public class OrderController {
         if (req.products() == null || req.products().isEmpty()) {
             throw new OrderException(OrderExceptionCode.BAD_REQUEST);
         }
-        orderService.order(orderMapper.toORderVo(req));
+        orderService.order(orderMapper.toOrderVo(req));
     }
 
 }
