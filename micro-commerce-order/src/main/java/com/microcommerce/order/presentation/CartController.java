@@ -22,8 +22,11 @@ public class CartController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/v1/orders/carts")
-    public void addCart(@RequestBody final AddCartReqDto req) {
-        cartService.addCart(cartMapper.toAddCartVo(req));
+    public void addCart(@RequestBody final List<AddCartReqDto> req) {
+        cartService.addCart(req.stream()
+                .map(cartMapper::toAddCartVo)
+                .toList()
+        );
     }
 
     @GetMapping("/api/v1/orders/carts")

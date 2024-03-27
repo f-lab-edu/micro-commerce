@@ -26,8 +26,10 @@ public class CartService {
 
     private final ProductClientDao productClientDao;
 
-    public void addCart(final AddCartVo vo) {
-        cartRepository.save(cartMapper.toCart(vo));
+    public void addCart(final List<AddCartVo> vo) {
+        cartRepository.saveAll(vo.stream()
+                .map(cartMapper::toCart)
+                .toList());
     }
 
     public List<CartProductResDto> getAllCartProducts(final Long userId) {
