@@ -23,8 +23,7 @@ public interface ProductMapper {
     @Mapping(source = "images", target = "imageUrl")
     ProductDetailResDto toProductDetailResDto(Product product, List<String> images);
 
-    @Mapping(source = "imageUrl", target = "representativeImageUrl")
-    ProductResDto toProductResDto(Product product, String imageUrl);
+    ProductResDto toProductResDto(Product product, String representativeImageUrl);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "status", ignore = true)
