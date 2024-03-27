@@ -24,9 +24,9 @@ public class ProductInternalController {
         return productService.getProductsByIds(ids);
     }
 
-    @PostMapping("/internal-api/v1/products/{productId}/decrement-score")
-    public String decreaseStock(@RequestBody final DecreaseStockReqDto body, @PathVariable final Long productId) {
-        return stockService.decreaseStock(productId, body.quantity());
+    @PostMapping("/internal-api/v1/products/{productId}/stock")
+    public String changeStock(@PathVariable final Long productId, @RequestBody final Integer change) {
+        return stockService.changeStock(productId, change);
     }
 
 }

@@ -16,13 +16,13 @@ public class StockService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public String decreaseStock(final Long productId, final Integer quantity) {
+    public String changeStock(final Long productId, final Integer change) {
         return productRepository.findById(productId)
                 .map(p -> {
-                    if (p.getStock() < quantity) {
+                    if (p.getStock() < change) {
                         throw new ProductException(ProductExceptionCode.INSUFFICIENT_STOCK);
                     }
-                    p.setStock(p.getStock() - quantity);
+                    p.setStock(p.getStock() + change);
                     if (p.getStock() == 0) {
                         p.setStatus(ProductStatus.SOLD_OUT);
                     }
